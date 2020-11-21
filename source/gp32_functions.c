@@ -116,7 +116,7 @@ int GpGraphicModeSet(int gd_bpp, int * gp_pal)
         free(GpScreen[1]);
     }
 
-    screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, 32, SDL_SWSURFACE | fullscreen);
+    screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, 16, SDL_HWSURFACE | fullscreen);
     if ( screen == NULL ) {
         fprintf(stderr, "Unable to set video mode: %s\n", SDL_GetError());
         return(1);
@@ -157,10 +157,11 @@ int GpLcdSurfaceGet(GPDRAWSURFACE * ptgpds, int idx)
 
 void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 {
-    int x, y, c;
-    unsigned int r, g, b;
-    unsigned int *vram;
-    vram=(unsigned int*)screen->pixels;
+    int x, y;
+    unsigned short c;
+    unsigned short r, g, b;
+    unsigned short *vram;
+    vram=(unsigned short*)screen->pixels;
 
     switch(scale)
 	{
@@ -175,9 +176,9 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
                         c = *gp32vram++;
-                        r = ((c>>11) & 31)<<RSH;
-                        g = ((c>>6) & 31)<<GSH;
-                        b = ((c>>1) & 31)<<BSH;
+                        r = c & 0xf800;
+                        g = c & 0x07c0;
+                        b = (c>>1) & 0x001f;
                         *(vram + yp + x) = r | g | b;
                         yp-=LCD_WIDTH;
                     }
@@ -209,9 +210,9 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
                         c = *gp32vram++;
-                        r = ((c>>11) & 31)<<RSH;
-                        g = ((c>>6) & 31)<<GSH;
-                        b = ((c>>1) & 31)<<BSH;
+                        r = c & 0xf800;
+                        g = c & 0x07c0;
+                        b = (c>>1) & 0x001f;
                         c = r | g | b;
                         offset = yp + (x << scale);
                         *(vram + offset) = c;

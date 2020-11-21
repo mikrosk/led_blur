@@ -98,14 +98,14 @@ static void Init()
 
 const char *usage_str = "Command line options:\n"
 	"-f\tfullscreen\n"
-	"-s\tsmall, do not scale to 640x480\n"
+	"-s\tscale to 640x480\n"
 	"-m\tno music\n"
 	"-h\thelp (this usage info)\n";
 
 int main(int argc, char *argv[])
 {
 	int i;
-	scale = 1;
+	scale = 0;
 	fullscreen = 0;
 	vsync = 1;
 		
@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 				break;
 
 			case 's':
-				scale = 0;
+				scale = 1;
 				break;
 
 			case 'm':
