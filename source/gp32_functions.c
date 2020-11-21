@@ -125,7 +125,6 @@ int GpGraphicModeSet(int gd_bpp, int * gp_pal)
 
     GpScreen[0] = (unsigned short*)malloc(sizeof(GpScreen[0]) * (LCD_WIDTH * LCD_HEIGHT));
     GpScreen[1] = (unsigned short*)malloc(sizeof(GpScreen[1]) * (LCD_WIDTH * LCD_HEIGHT));
-    GpScreen[2] = (unsigned short*)malloc(sizeof(GpScreen[1]) * (LCD_WIDTH * LCD_HEIGHT));
     cur_bpp = gd_bpp;
     vfirst = 1;
 
