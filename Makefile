@@ -16,10 +16,10 @@ SDL_LIBS	:= $(shell $(PREFIX)/bin/m68020-60/sdl-config --libs)
 #SDL_CFLAGS	:= $(shell $(PREFIX)/bin/m5475/sdl-config --cflags)
 #SDL_LIBS	:= $(shell $(PREFIX)/bin/m5475/sdl-config --libs)
 
-CFLAGS	:= -std=gnu99 -pedantic $(warn) $(opt) -Isource $(SDL_CFLAGS) #`libmikmod-config --cflags`
+CFLAGS	:= -std=gnu99 -pedantic $(warn) $(opt) -Isource $(SDL_CFLAGS)
 LDFLAGS	:= -s -m68020-60
 #LDFLAGS	:= -s -mcpu=5475
-LDLIBS	:= $(SDL_LIBS) #`libmikmod-config --libs`
+LDLIBS	:= $(SDL_LIBS) -lxmp-lite
 
 $(TARGET): $(obj)
 	$(CC) -o $@ $(LDFLAGS) $^ $(LDLIBS)

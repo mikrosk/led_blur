@@ -20,136 +20,107 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <libxmp-lite/xmp.h>
+
+#include <mint/falcon.h>
+#include <mint/osbind.h>
+
 #define MOD_FILENAME	"retroattivo.mod"
+#define SAMPLE_RATE	49170
 
 int play_music = 1;
 
-#if defined(WIN32) || defined(__WIN32__)
-#include <windows.h>
-#include <conio.h>
+static xmp_context c;
 
-#include <fmod.h>
-#include <fmod_errors.h>
+static char* pPhysical;
+static char* pLogical;
+static size_t bufferSize;	// size of one buffer
+static char* pBuffer;
 
-FMUSIC_MODULE *mod = NULL;
-FSOUND_SAMPLE *song = 0;
-FSOUND_DSPUNIT    *DrySFXUnit = NULL;
-
-void SoundInit(void)
-{
-	if(!play_music) return;
-	
-	if (FSOUND_GetVersion() < FMOD_VERSION)
-	{
-		printf("Error : You are using the wrong DLL version!  You should be using FMOD %.02f\n", FMOD_VERSION);
-		exit(1);
-	}
-
-	if (!FSOUND_Init(44100, 64, 0))
-	{
-		printf("%s\n", FMOD_ErrorString(FSOUND_GetError()));
-		exit(1);
-	}
+static void loadBuffer(char* pBuffer, size_t bufferSize) {
+    xmp_play_buffer(c, pBuffer, bufferSize, 0);
 }
-
-void PlaySong(void)
-{
-	if(!play_music) return;
-	mod = FMUSIC_LoadSong(MOD_FILENAME);
-	if (!mod)
-	{
-		printf("%s\n", FMOD_ErrorString(FSOUND_GetError()));
-		exit(1);
-	}
-	FMUSIC_PlaySong(mod);
-}
-
-
-void SoundEnd(void)
-{
-	if(play_music) {
-		FMUSIC_FreeSong(mod);
-		FSOUND_Close();
-	}
-}
-
-#else /* use mikmod instead of fmod on unix */
-#if 0
-#include <signal.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <mikmod.h>
-
-MODULE *mod;
-pid_t plr_pid;
-
-static void sig_handler(int s) {
-	switch(s) {
-	case SIGUSR1:
-		exit(0);
-
-	case SIGCHLD:
-		wait(0);
-		break;
-
-	default:
-		break;
-	}
-}
-#endif
-
 
 void SoundInit(void) {
-	#if 0
-	if(!play_music) return;
+    if (!play_music)
+        return;
 
-	MikMod_RegisterAllDrivers();
-	MikMod_RegisterAllLoaders();
+    c = xmp_create_context();
+    
+    struct xmp_test_info ti;
+    xmp_test_module(MOD_FILENAME, &ti);
 
-	md_mode |= DMODE_SOFT_MUSIC;
-	if(MikMod_Init("") != 0) {
-		fprintf(stderr, "mikmod init failed: %s\n", MikMod_strerror(MikMod_errno));
-		exit(1);
-	}
+    if (xmp_load_module(c, MOD_FILENAME) != 0) {
+	exit(EXIT_FAILURE);
+    }
+    
+    xmp_start_player(c, SAMPLE_RATE, 0);	// 0: stereo 16bit signed (default)
+    
+    bufferSize = 2 * 2 * SAMPLE_RATE * 1;	// 2 channels * 16 bit * 49170 Hz * 1 second
 
-	if(!(mod = Player_Load(MOD_FILENAME, 64, 0))) {
-		fprintf(stderr, "failed to load %s: %s\n", MOD_FILENAME, MikMod_strerror(MikMod_errno));
-		exit(1);
-	}
-	#endif
+    pBuffer = (char*)Mxalloc(2 * bufferSize, MX_STRAM);
+    if (pBuffer == NULL) {
+    	exit(EXIT_FAILURE);
+    }
+    pPhysical = pBuffer;
+    pLogical = pBuffer + bufferSize;
+
+    loadBuffer(pPhysical, bufferSize);
+    loadBuffer(pLogical, bufferSize);
+    
+    Sndstatus(SND_RESET);
+
+    Devconnect(DMAPLAY, DAC, CLK25M, CLK50K, NO_SHAKE);
+
+    Setmode(MODE_STEREO16);
+    Soundcmd(ADDERIN, MATIN);
+    Setbuffer(SR_PLAY, pBuffer, pBuffer + 2*bufferSize);
 }
 
 void PlaySong(void) {
-	#if 0
-	if(!play_music) return;
-	
-	Player_Start(mod);
-	
-	if(!(plr_pid = fork())) {
-		atexit(Player_Stop);
+    if (!play_music)
+        return;
 
-		while(Player_Active()) {
-			usleep(10000);
-			MikMod_Update();
-		}
-		exit(0);
+    Buffoper (SB_PLA_ENA | SB_PLA_RPT);
+}
+
+void UpdateSong(void) {
+    if (!play_music)
+        return;
+
+    static int loadSampleFlag = 1;
+
+    SndBufPtr sPtr;
+    if (Buffptr(&sPtr) != 0) {
+	exit(EXIT_FAILURE);
+    }
+
+    if (loadSampleFlag == 0) {
+	// we play from pPhysical (1st buffer)
+	if (sPtr.play < pLogical)
+	{
+            loadBuffer(pLogical, bufferSize);
+            loadSampleFlag = !loadSampleFlag;
 	}
-	
-	signal(SIGUSR1, sig_handler);
-	signal(SIGCHLD, sig_handler);
-	#endif
+    } else {
+        // we play from pLogical (2nd buffer)
+        if (sPtr.play >= pLogical) {
+            loadBuffer(pPhysical, bufferSize);
+            loadSampleFlag = !loadSampleFlag;
+        }
+    }
 }
 
 void SoundEnd(void) {
-	#if 0
-	if(!play_music) return;
+    if (!play_music)
+        return;
 
-	if(plr_pid) {
-		kill(plr_pid, SIGUSR1);
-	}
-	MikMod_Exit();
-	#endif
+    Buffoper(0x00);
+
+    xmp_stop_module(c);
+    xmp_end_player(c);
+    xmp_release_module(c);
+
+    Mfree(pBuffer);
+    pBuffer = NULL;
 }
-
-#endif

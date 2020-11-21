@@ -22,6 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 void SoundInit(void);
 void PlaySong(void);
+void UpdateSong(void);
 void SoundEnd(void);
 
 #endif	/* _SOUND_H_ */
