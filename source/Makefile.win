@@ -1,0 +1,91 @@
+# Project: ledblur_PC
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = bitfonts.o effects.o engine3d.o gp32ball.o jlh0.o ledblur.o precalcs.o script.o gp32_functions.o generate3d.o render3d.o face.o env1.o sound.o redbull.o redbull_top.o redbull_bottom.o mindlapse.o presents.o fonts16.o teapot.o $(RES)
+LINKOBJ  = bitfonts.o effects.o engine3d.o gp32ball.o jlh0.o ledblur.o precalcs.o script.o gp32_functions.o generate3d.o render3d.o face.o env1.o sound.o redbull.o redbull_top.o redbull_bottom.o mindlapse.o presents.o fonts16.o teapot.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib/SDL" -lSDL -lfmod  ../../../../../Dev-Cpp/lib/libwinmm.a  
+INCS =  -I"C:/Dev-Cpp/include/SDL"  -I"C:/Dev-Cpp/include/FMOD"  -I"C:/Dev-Cpp/include/GameparkSDK" 
+CXXINCS =  -I"C:/Dev-Cpp/include/SDL"  -I"C:/Dev-Cpp/include/FMOD"  -I"C:/Dev-Cpp/include/GameparkSDK" 
+BIN  = ledblur_PC.exe
+CXXFLAGS = $(CXXINCS)   -w -fexpensive-optimizations -O3
+CFLAGS = $(INCS)   -w -fexpensive-optimizations -O3
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before ledblur_PC.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o "ledblur_PC.exe" $(LIBS)
+
+bitfonts.o: bitfonts.c
+	$(CC) -c bitfonts.c -o bitfonts.o $(CFLAGS)
+
+effects.o: effects.c
+	$(CC) -c effects.c -o effects.o $(CFLAGS)
+
+engine3d.o: engine3d.c
+	$(CC) -c engine3d.c -o engine3d.o $(CFLAGS)
+
+gp32ball.o: gp32ball.c
+	$(CC) -c gp32ball.c -o gp32ball.o $(CFLAGS)
+
+jlh0.o: jlh0.c
+	$(CC) -c jlh0.c -o jlh0.o $(CFLAGS)
+
+ledblur.o: ledblur.c
+	$(CC) -c ledblur.c -o ledblur.o $(CFLAGS)
+
+precalcs.o: precalcs.c
+	$(CC) -c precalcs.c -o precalcs.o $(CFLAGS)
+
+script.o: script.c
+	$(CC) -c script.c -o script.o $(CFLAGS)
+
+gp32_functions.o: gp32_functions.c
+	$(CC) -c gp32_functions.c -o gp32_functions.o $(CFLAGS)
+
+generate3d.o: generate3d.c
+	$(CC) -c generate3d.c -o generate3d.o $(CFLAGS)
+
+render3d.o: render3d.c
+	$(CC) -c render3d.c -o render3d.o $(CFLAGS)
+
+face.o: face.c
+	$(CC) -c face.c -o face.o $(CFLAGS)
+
+env1.o: env1.c
+	$(CC) -c env1.c -o env1.o $(CFLAGS)
+
+sound.o: sound.c
+	$(CC) -c sound.c -o sound.o $(CFLAGS)
+
+redbull.o: redbull.c
+	$(CC) -c redbull.c -o redbull.o $(CFLAGS)
+
+redbull_top.o: redbull_top.c
+	$(CC) -c redbull_top.c -o redbull_top.o $(CFLAGS)
+
+redbull_bottom.o: redbull_bottom.c
+	$(CC) -c redbull_bottom.c -o redbull_bottom.o $(CFLAGS)
+
+mindlapse.o: mindlapse.c
+	$(CC) -c mindlapse.c -o mindlapse.o $(CFLAGS)
+
+presents.o: presents.c
+	$(CC) -c presents.c -o presents.o $(CFLAGS)
+
+fonts16.o: fonts16.c
+	$(CC) -c fonts16.c -o fonts16.o $(CFLAGS)
+
+teapot.o: teapot.c
+	$(CC) -c teapot.c -o teapot.o $(CFLAGS)
+

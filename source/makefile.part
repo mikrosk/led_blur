@@ -1,0 +1,23 @@
+obj = \
+	source/bitfonts.o\
+	source/effects.o\
+	source/engine3d.o\
+	source/env1.o\
+	source/face.o\
+	source/fonts16.o\
+	source/generate3d.o\
+	source/gp32ball.o\
+	source/gp32_functions.o\
+	source/jlh0.o\
+	source/ledblur.o\
+	source/mindlapse.o\
+	source/precalcs.o\
+	source/presents.o\
+	source/redbull_bottom.o\
+	source/redbull.o\
+	source/redbull_top.o\
+	source/render3d.o\
+	source/script.o\
+	source/sound.o\
+	source/teapot.o
+

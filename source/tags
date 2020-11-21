@@ -1,0 +1,444 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+BIG_ENDIAN	gp32_functions.c	42;"	d	file:
+BSH	gp32_functions.c	149;"	d	file:
+BSH	gp32_functions.c	153;"	d	file:
+BlobInit	precalcs.c	/^void BlobInit()$/;"	f
+BlobStars3D	effects.c	/^void BlobStars3D(unsigned short *vram)$/;"	f
+Blobs2vram	effects.c	/^void Blobs2vram(unsigned short *vram, unsigned short shade[])$/;"	f
+Blur	effects.c	/^void Blur(unsigned char *buffer, unsigned char *vram)$/;"	f
+BlurX2	effects.c	/^void BlurX2(unsigned char *buffer, unsigned char *vram)$/;"	f
+BlurY2	effects.c	/^void BlurY2(unsigned char *buffer, unsigned char *vram)$/;"	f
+Calc3d	engine3d.c	/^void Calc3d(object3d *obj)$/;"	f
+CalcNorms	generate3d.c	/^void CalcNorms(object3d *obj, int neg)$/;"	f
+CalcPointColor	engine3d.c	/^void CalcPointColor(object3d *obj)$/;"	f
+CalcPointColorDynamic	engine3d.c	/^void CalcPointColorDynamic(object3d *obj)$/;"	f
+CalcPointColorStatic	engine3d.c	/^void CalcPointColorStatic(object3d *obj)$/;"	f
+CalcPolyColor	engine3d.c	/^void CalcPolyColor(object3d *obj)$/;"	f
+CalcPolyColorDynamic	engine3d.c	/^void CalcPolyColorDynamic(object3d *obj)$/;"	f
+CalcPolyColorStatic	engine3d.c	/^void CalcPolyColorStatic(object3d *obj)$/;"	f
+CalcPtNorms	generate3d.c	/^void CalcPtNorms(object3d *obj)$/;"	f
+CleanZbuffer	render3d.c	/^void CleanZbuffer()$/;"	f
+ClearScreen	ledblur.c	/^static void ClearScreen(int page, int c)$/;"	f	file:
+ClearScreen	script.c	/^void ClearScreen(unsigned short *vram, unsigned short c)$/;"	f
+CloneColors	precalcs.c	/^void CloneColors()$/;"	f
+Close	effects.c	/^void Close(unsigned short *vram, int xclose)$/;"	f
+ColorRGB	precalcs.h	/^typedef struct ColorRGB$/;"	s
+ColorRGB	precalcs.h	/^} ColorRGB;$/;"	t
+CountFps	script.c	/^void CountFps(int show)$/;"	f
+CrossProduct	engine3d.c	/^vector3d CrossProduct(vector3d v1, vector3d v2)$/;"	f
+D2R	engine3d.h	42;"	d
+DistortInit	precalcs.c	/^void DistortInit()$/;"	f
+DotProduct	engine3d.c	/^int DotProduct(vector3d v1, vector3d v2)$/;"	f
+DrawEnvmappedTriangle	render3d.c	/^void DrawEnvmappedTriangle(poly2d poly, unsigned short *vram, int tshr, unsigned short texture[])$/;"	f
+DrawEnvmappedTriangleZB	render3d.c	/^void DrawEnvmappedTriangleZB(poly2d poly, unsigned short *vram, int tshr, unsigned short texture[])$/;"	f
+DrawFlatTriangle	render3d.c	/^void DrawFlatTriangle (poly2d poly, unsigned short *vram, unsigned short shade[])$/;"	f
+DrawFlatTriangleZB	render3d.c	/^void DrawFlatTriangleZB (poly2d poly, unsigned short *vram, unsigned short shade[])$/;"	f
+DrawFlatWaterTriangle	render3d.c	/^void DrawFlatWaterTriangle (poly2d poly, unsigned short *vram, unsigned short shade1[], unsigned short shade2[])$/;"	f
+DrawFlatWaterTriangleZB	render3d.c	/^void DrawFlatWaterTriangleZB (poly2d poly, unsigned short *vram, unsigned short shade1[], unsigned short shade2[])$/;"	f
+DrawFont	script.c	/^static inline void DrawFont(int xp, int yp, int ch, int bpp, unsigned short* gp32v16)$/;"	f	file:
+DrawGouraudTriangle	render3d.c	/^void DrawGouraudTriangle (poly2d poly, unsigned short *vram, unsigned short shade[])$/;"	f
+DrawGouraudTriangleZB	render3d.c	/^void DrawGouraudTriangleZB (poly2d poly, unsigned short *vram, unsigned short shade[])$/;"	f
+DrawText	script.c	/^void DrawText(int xtp, int ytp, int cn, char *text, int bpp, GPDRAWSURFACE * ptgpds)$/;"	f
+DrawText16	script.c	/^void DrawText16(int xp, int yp, char *text, unsigned short *vram)$/;"	f
+DrawTextureTriangle	render3d.c	/^void DrawTextureTriangle(poly2d poly, unsigned short *vram, int tshr, unsigned short texture[])$/;"	f
+DrawTextureTriangleZB	render3d.c	/^void DrawTextureTriangleZB(poly2d poly, unsigned short *vram, int tshr, unsigned short texture[])$/;"	f
+DrawTextureTriangleZB_plasma	render3d.c	/^void DrawTextureTriangleZB_plasma(poly2d poly, unsigned short *vram, unsigned short shade[])$/;"	f
+DrawTextureTriangle_plasma	render3d.c	/^void DrawTextureTriangle_plasma(poly2d poly, unsigned short *vram, unsigned short shade[])$/;"	f
+DrySFXUnit	sound.c	/^FSOUND_DSPUNIT    *DrySFXUnit = NULL;$/;"	v
+ENVMAP	engine3d.h	30;"	d
+FALSE	gpdef.h	41;"	d
+FALSE	gpdef.h	43;"	d
+FALSE	gpdef.h	44;"	d
+FLAT	engine3d.h	27;"	d
+FLATWATER	engine3d.h	34;"	d
+Fade2Shade	script.c	/^void Fade2Shade(unsigned short shade1[], unsigned short shade2[], float pc, unsigned short shade[])$/;"	f
+FontInit	precalcs.c	/^void FontInit()$/;"	f
+GOURAUD	engine3d.h	28;"	d
+GP32Surface	ledblur.c	/^GPDRAWSURFACE GP32Surface[2];$/;"	v
+GP32_Height	effects.h	23;"	d
+GP32_Width	effects.h	22;"	d
+GP32toPC	gp32_functions.c	/^void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)$/;"	f
+GPC_LCD_HEIGHT	gpdef.h	101;"	d
+GPC_LCD_PHYSICAL_H	gpdef.h	103;"	d
+GPC_LCD_PHYSICAL_W	gpdef.h	102;"	d
+GPC_LCD_WIDTH	gpdef.h	100;"	d
+GPC_VK_DOWN	gpdef.h	84;"	d
+GPC_VK_ENTER	gpdef.h	89;"	d
+GPC_VK_F1	gpdef.h	86;"	d
+GPC_VK_F2	gpdef.h	87;"	d
+GPC_VK_F3	gpdef.h	88;"	d
+GPC_VK_FA	gpdef.h	94;"	d
+GPC_VK_FB	gpdef.h	95;"	d
+GPC_VK_FL	gpdef.h	96;"	d
+GPC_VK_FR	gpdef.h	97;"	d
+GPC_VK_LEFT	gpdef.h	81;"	d
+GPC_VK_NONE	gpdef.h	80;"	d
+GPC_VK_RIGHT	gpdef.h	83;"	d
+GPC_VK_SELECT	gpdef.h	92;"	d
+GPC_VK_START	gpdef.h	91;"	d
+GPC_VK_UP	gpdef.h	82;"	d
+GPDRAWSURFACE	gp32_functions.h	/^} GPDRAWSURFACE;$/;"	t
+GPPOINT	gpdef.h	/^} GPPOINT;$/;"	t
+GPRECT	gpdef.h	/^}GPRECT;$/;"	t
+GP_HPALETTE	gp32_functions.h	/^typedef unsigned int* GP_HPALETTE;$/;"	t
+GP_PALETTEENTRY	gp32_functions.h	/^typedef unsigned short GP_PALETTEENTRY;$/;"	t
+GSH	gp32_functions.c	148;"	d	file:
+GSH	gp32_functions.c	152;"	d	file:
+GenerateCylinder	generate3d.c	/^void GenerateCylinder(object3d *obj)$/;"	f
+GenerateSpherical	generate3d.c	/^void GenerateSpherical(object3d *obj, int pln, float f1, float f2, float k1, float k2, float kk)$/;"	f
+GpGraphicModeSet	gp32_functions.c	/^int GpGraphicModeSet(int gd_bpp, int * gp_pal)$/;"	f
+GpKeyGet	gp32_functions.c	/^int GpKeyGet()$/;"	f
+GpLcdSurfaceGet	gp32_functions.c	/^int GpLcdSurfaceGet(GPDRAWSURFACE * ptgpds, int idx)$/;"	f
+GpPaletteCreate	gp32_functions.c	/^GP_HPALETTE GpPaletteCreate (int entry_num, GP_PALETTEENTRY * pal_entry)$/;"	f
+GpPaletteRealize	gp32_functions.c	/^unsigned int GpPaletteRealize (void){ return 0; }$/;"	f
+GpPaletteSelect	gp32_functions.c	/^GP_HPALETTE GpPaletteSelect(GP_HPALETTE h_new)$/;"	f
+GpScreen	gp32_functions.c	/^unsigned short *GpScreen[2];$/;"	v
+GpSurfaceFlip	gp32_functions.c	/^void GpSurfaceFlip(GPDRAWSURFACE * ptgpds, int vs)$/;"	f
+GpTickCountGet	gp32_functions.c	/^unsigned int GpTickCountGet()$/;"	f
+Init	ledblur.c	/^static void Init()$/;"	f	file:
+Init3d	engine3d.c	/^void Init3d()$/;"	f
+InitFonts	script.c	/^void InitFonts()$/;"	f
+InitGraphics	ledblur.c	/^void InitGraphics(int depth)$/;"	f
+InitMusic	ledblur.c	/^static void InitMusic()$/;"	f	file:
+InitTestObject	generate3d.c	/^void InitTestObject(object3d *obj, int objn)$/;"	f
+Juhlia	effects.c	/^void Juhlia(unsigned short *buffer, unsigned short shade[], float xpf, float ypf)$/;"	f
+Juhlia128	effects.c	/^void Juhlia128(unsigned char *vram)$/;"	f
+JuhliaBig	script.c	/^void JuhliaBig()$/;"	f
+JuhliaIn	script.c	/^void JuhliaIn()$/;"	f
+KeyCommands	gp32_functions.c	/^void KeyCommands()$/;"	f
+Keys	script.c	/^void Keys()$/;"	f
+LCD_HEIGHT	gp32_functions.h	23;"	d
+LCD_WIDTH	gp32_functions.h	22;"	d
+LIGHTMOVE	engine3d.h	39;"	d
+LIGHTVIEW	engine3d.h	38;"	d
+LITTLE_ENDIAN	gp32_functions.c	38;"	d	file:
+Load16bit3do	generate3d.c	/^void Load16bit3do(object3d *obj, unsigned char* objdata, int neg)$/;"	f
+LogoDistort	effects.c	/^void LogoDistort(unsigned short *vram, int xp, int yp)$/;"	f
+LogoZoom	effects.c	/^void LogoZoom(unsigned short *vram, int xp, int yp, float zf)$/;"	f
+MAXDATA	engine3d.h	23;"	d
+MAXSHADES	precalcs.h	21;"	d
+MAX_PATH_NAME_LEN	gpdef.h	118;"	d
+MOD_FILENAME	sound.c	23;"	d	file:
+MakeColors	precalcs.c	/^void MakeColors(unsigned short cols[], ColorRGB c0, ColorRGB c1, int n0, int n1)$/;"	f
+MakeFadeColors	precalcs.c	/^void MakeFadeColors()$/;"	f
+NULL	gpdef.h	30;"	d
+NegVec	engine3d.c	/^vector3d NegVec(vector3d v)$/;"	f
+Normalize	engine3d.c	/^vector3d Normalize(vector3d v)$/;"	f
+OpenJLH	effects.c	/^void OpenJLH(unsigned short *vram, int ffp)$/;"	f
+PI	engine3d.h	41;"	d
+POINTS	engine3d.h	25;"	d
+Plasma	effects.c	/^void Plasma(unsigned short *vram, unsigned short shade[])$/;"	f
+PlasmaCube	script.c	/^void PlasmaCube()$/;"	f
+PlasmaFace	script.c	/^void PlasmaFace()$/;"	f
+PlasmaFade	effects.c	/^void PlasmaFade(unsigned short *vram, unsigned short shade[], unsigned int area)$/;"	f
+PlasmaFade2	effects.c	/^void PlasmaFade2(unsigned short *vram, unsigned short shade[], unsigned int area)$/;"	f
+PlasmaInit	precalcs.c	/^static void PlasmaInit()$/;"	f	file:
+PlaySong	sound.c	/^void PlaySong(void) {$/;"	f
+PlaySong	sound.c	/^void PlaySong(void)$/;"	f
+Polar	effects.c	/^void Polar(unsigned short *vram, unsigned short shade1[], unsigned short shade2[])$/;"	f
+PolarInit	precalcs.c	/^static void PolarInit()$/;"	f	file:
+PolarTunnel	script.c	/^void PolarTunnel()$/;"	f
+PrintVector	engine3d.c	/^void PrintVector(vector3d v)$/;"	f
+RNG	effects.c	684;"	d	file:
+RSH	gp32_functions.c	147;"	d	file:
+RSH	gp32_functions.c	151;"	d	file:
+RedBull	script.c	/^void RedBull()$/;"	f
+Render	render3d.c	/^void Render(object3d *obj, unsigned int shadenum1, unsigned int shadenum2, unsigned short *vram, unsigned int texshr, unsigned short texture1[], unsigned short texture2[], unsigned short texture3[], unsigned int bpp)$/;"	f
+RenderMode	render3d.c	/^unsigned int RenderMode;$/;"	v
+RenderSpecial	render3d.c	/^void RenderSpecial(object3d *obj, unsigned int shadenum1, unsigned int shadenum2, float perc, unsigned short *vram)$/;"	f
+ReversePolygonOrder	generate3d.c	/^void ReversePolygonOrder(object3d *obj)$/;"	f
+Rotozoomer	effects.c	/^void Rotozoomer(unsigned short *vram, unsigned short shade[], float ra, float zm)$/;"	f
+Run	script.c	/^void Run()$/;"	f
+RunScene3d	engine3d.c	/^void RunScene3d(unsigned short *vram, int sn)$/;"	f
+Scr_Size	effects.h	24;"	d
+Script	script.c	/^void Script()$/;"	f
+Set8bitPals	precalcs.c	/^void Set8bitPals()$/;"	f
+Show3dInit	precalcs.c	/^void Show3dInit()$/;"	f
+SoundEnd	sound.c	/^void SoundEnd(void) {$/;"	f
+SoundEnd	sound.c	/^void SoundEnd(void)$/;"	f
+SoundInit	sound.c	/^void SoundInit(void) {$/;"	f
+SoundInit	sound.c	/^void SoundInit(void)$/;"	f
+Space	script.c	/^void Space()$/;"	f
+Stars3dInit	precalcs.c	/^void Stars3dInit()$/;"	f
+TEXTURE	engine3d.h	29;"	d
+TEXTUREPLASMA	engine3d.h	35;"	d
+TRUE	gpdef.h	34;"	d
+TRUE	gpdef.h	36;"	d
+TRUE	gpdef.h	37;"	d
+Theight	precalcs.h	24;"	d
+Ticks	script.c	/^int Ticks()$/;"	f
+Twidth	precalcs.h	23;"	d
+VBALLS	engine3d.h	32;"	d
+WIRE	engine3d.h	26;"	d
+Water	effects.c	/^void Water(unsigned short *vram)$/;"	f
+WaterInit	precalcs.c	/^void WaterInit()$/;"	f
+WaterPart	script.c	/^void WaterPart()$/;"	f
+X	gpdef.h	/^	int X;$/;"	m	struct:tagGPPOINT
+Y	gpdef.h	/^	int Y;$/;"	m	struct:tagGPPOINT
+ZBUFFER	engine3d.h	36;"	d
+Zoom	effects.c	/^void Zoom(unsigned char *buffer1, unsigned char *buffer2, float zf)$/;"	f
+_SOUND_H_	sound.h	21;"	d
+__GPDEF_H__	gpdef.h	21;"	d
+__size_t	gpdef.h	48;"	d
+addtimes	generate3d.c	/^unsigned char addtimes[MAXDATA];$/;"	v
+atime	script.c	/^int fps=0, mo=0, atime=0, ptime=0;$/;"	v
+b	precalcs.h	/^    unsigned char b;$/;"	m	struct:ColorRGB
+ba	effects.c	/^unsigned char *ba = buffer1 + GP32_Height, *bb = buffer2 + GP32_Height;$/;"	v
+ball	gp32ball.c	/^unsigned char ball[] = {0,0,0,8,0,16,0,24,0,32,0,40,0,48,0,56,0,64,0,68,0,76,0,84,0,92,0,100,0,108,0,116,$/;"	v
+ball_c	render3d.c	/^unsigned char ball_c[256];$/;"	v
+ball_height	render3d.h	21;"	d
+ball_p	render3d.c	/^unsigned short ball_p[256];$/;"	v
+ball_width	render3d.h	20;"	d
+bb	effects.c	/^unsigned char *ba = buffer1 + GP32_Height, *bb = buffer2 + GP32_Height;$/;"	v
+bitfonts	bitfonts.c	/^unsigned char bitfonts[] = {0,0,0,0,0,0,0,0,4,12,8,24,16,0,32,0,10,18,20,0,0,0,0,0,0,20,126,40,252,80,$/;"	v
+blob	precalcs.c	/^unsigned char blob[blob_width * blob_height];$/;"	v
+blob_height	precalcs.h	28;"	d
+blob_width	precalcs.h	27;"	d
+blobbuffer	effects.c	/^unsigned char blobbuffer[GP32_Width * GP32_Height];$/;"	v
+blur1	script.c	/^unsigned char *blur1 = blurbuffer1;$/;"	v
+blurbuffer1	script.c	/^unsigned char blurbuffer1[Scr_Size];$/;"	v
+blurpal	precalcs.c	/^GP_HPALETTE	blurpal;$/;"	v
+bottom	gpdef.h	/^	int bottom;$/;"	m	struct:tagGPRECT
+bpp	gp32_functions.h	/^	int bpp;	\/*reserved*\/$/;"	m	struct:tagGPDRAWSURFACE
+bpp	script.c	/^int bpp[nparts];$/;"	v
+bshade	precalcs.c	/^unsigned short bshade[256], wshade[256];$/;"	v
+buf_h	gp32_functions.h	/^	int buf_h;$/;"	m	struct:tagGPDRAWSURFACE
+buf_w	gp32_functions.h	/^	int buf_w;$/;"	m	struct:tagGPDRAWSURFACE
+buffer1	effects.c	/^unsigned char buffer1[Scr_Size], buffer2[Scr_Size];$/;"	v
+buffer2	effects.c	/^unsigned char buffer1[Scr_Size], buffer2[Scr_Size];$/;"	v
+buttons0	script.c	/^int buttons0 = 0, buttons1 = 0;$/;"	v
+buttons1	script.c	/^int buttons0 = 0, buttons1 = 0;$/;"	v
+byte	gpdef.h	52;"	d
+byte	gpdef.h	53;"	d
+c	engine3d.h	/^	int c;$/;"	m	struct:line2d
+c	engine3d.h	/^	int c;$/;"	m	struct:poly2d
+c	engine3d.h	/^	unsigned short c;$/;"	m	struct:point2d
+c	engine3d.h	/^	unsigned short c;$/;"	m	struct:point3d
+checkmode	script.c	/^void checkmode()$/;"	f
+chpart	script.c	/^int chpart=1;$/;"	v
+clean_blob	effects.c	/^void clean_blob(int xc, int yc, float zf)$/;"	f
+clockspeed	ledblur.c	/^int clockspeed = 66;$/;"	v
+colortest	precalcs.c	/^void colortest()$/;"	f
+cur_bpp	gp32_functions.c	/^int cur_bpp;$/;"	v
+d2b	precalcs.c	/^const float d2b = (rang * d2r) \/ 360.0;$/;"	v
+d2b2	precalcs.c	/^const float d2b2 = (rang2 * d2r) \/ 360.0;$/;"	v
+d2r	precalcs.h	34;"	d
+dclampx	precalcs.c	/^unsigned char dclampx[256], dclampy[128];$/;"	v
+dclampy	precalcs.c	/^unsigned char dclampx[256], dclampy[128];$/;"	v
+dist_angle	precalcs.c	/^unsigned short dist_angle[Scr_Size*2];$/;"	v
+div_tbl	precalcs.c	/^int div_tbl[4096];$/;"	v
+draw_blob	effects.c	/^void draw_blob(int xc, int yc, float zf)$/;"	f
+drawball	render3d.c	/^void drawball(point2d point, float zf, unsigned short *vram)$/;"	f
+drawfont16	effects.c	/^void drawfont16(int xf, int yf, float zf, int ch, unsigned short shade[], unsigned short *vram)$/;"	f
+drawline	render3d.c	/^void drawline(line2d line, unsigned short *buffer, int bpp)$/;"	f
+drawline16bit	render3d.c	/^void drawline16bit (line2d line, unsigned short *buffer)$/;"	f
+drawline8bit	render3d.c	/^void drawline8bit (line2d line, unsigned char *buffer)$/;"	f
+drawpoint	render3d.c	/^void drawpoint(point2d point, unsigned short *vram)$/;"	f
+dsin1	precalcs.c	/^int dsin1[1024], dsin2[1024];$/;"	v
+dsin2	precalcs.c	/^int dsin1[1024], dsin2[1024];$/;"	v
+dword	gpdef.h	70;"	d
+dword	gpdef.h	71;"	d
+env1	env1.c	/^unsigned short env1[] = {22534,22536,22536,24582,24584,24584,26634,26634,26634,26634,28684,28684,28684,28684,28684,30734,$/;"	v
+face3do	face.c	/^unsigned char face3do[] = {174,1,210,4,37,3,99,177,32,102,173,24,108,173,34,102,168,17,108,170,26,108,165,18,104,156,10,125,158,19,125,163,$/;"	v
+flip	ledblur.c	/^int flip=0;$/;"	v
+fnt16	precalcs.c	/^unsigned char fnt16[32768];$/;"	v
+font_height	effects.h	27;"	d
+font_width	effects.h	26;"	d
+fonts	script.c	/^unsigned char fonts[59*64];$/;"	v
+fonts16	fonts16.c	/^unsigned char fonts16[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,$/;"	v
+fp_mul	effects.c	70;"	d	file:
+fp_mul	engine3d.c	71;"	d	file:
+fp_shr	effects.c	71;"	d	file:
+fp_shr	engine3d.c	72;"	d	file:
+fps	script.c	/^int fps=0, mo=0, atime=0, ptime=0;$/;"	v
+fps_show	script.c	/^int fps_show=0;$/;"	v
+fpts	engine3d.c	/^point3d fpts[MAXDATA];$/;"	v
+framebuffer	ledblur.c	/^unsigned char *framebuffer[2];$/;"	v
+fsin1	precalcs.c	/^unsigned int fsin1[2048], fsin2[2048], fsin3[2048];$/;"	v
+fsin2	precalcs.c	/^unsigned int fsin1[2048], fsin2[2048], fsin3[2048];$/;"	v
+fsin3	precalcs.c	/^unsigned int fsin1[2048], fsin2[2048], fsin3[2048];$/;"	v
+fsin4	precalcs.c	/^unsigned int fsin4[2048], fsin5[2048];$/;"	v
+fsin5	precalcs.c	/^unsigned int fsin4[2048], fsin5[2048];$/;"	v
+fsin6	precalcs.c	/^unsigned int fsin6[2048], fsin7[2048], fsin8[2048];$/;"	v
+fsin7	precalcs.c	/^unsigned int fsin6[2048], fsin7[2048], fsin8[2048];$/;"	v
+fsin8	precalcs.c	/^unsigned int fsin6[2048], fsin7[2048], fsin8[2048];$/;"	v
+fullscreen	gp32_functions.c	/^int fullscreen;$/;"	v
+g	precalcs.h	/^    unsigned char g;$/;"	m	struct:ColorRGB
+gp_palette	gp32_functions.c	/^unsigned int gp_palette[256];$/;"	v
+jlh0	jlh0.c	/^unsigned short jlh0[] = {33436,56498,56562,58612,60726,60790,60790,58740,60788,58740,60788,60854,60854,60854,58740,58740,58676,56564,54516,54518,48308,44080,37870,29482,8336,4104,4166,2052,2052,2052,4100,2052,$/;"	v
+keys	gp32_functions.c	/^unsigned int keys[512];$/;"	v
+left	gpdef.h	/^	int left;$/;"	m	struct:tagGPRECT
+lightcalc	engine3d.c	/^int lightcalc = LIGHTVIEW;$/;"	v
+line	engine3d.h	/^    line2d *line;$/;"	m	struct:object3d
+line2d	engine3d.h	/^typedef struct line2d$/;"	s
+line2d	engine3d.h	/^}line2d;$/;"	t
+main	ledblur.c	/^int main(int argc, char *argv[])$/;"	f
+main	ledblur.c	27;"	d	file:
+mindlapse	mindlapse.c	/^unsigned short mindlapse[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,$/;"	v
+mo	script.c	/^int fps=0, mo=0, atime=0, ptime=0;$/;"	v
+mod	sound.c	/^FMUSIC_MODULE *mod = NULL;$/;"	v
+mod	sound.c	/^MODULE *mod;$/;"	v
+modplay	script.c	/^int modplay=0;$/;"	v
+n2	effects.c	72;"	d	file:
+nfrm	script.c	/^int nfrm=0;$/;"	v
+nlns	engine3d.h	/^    int npts, npls, nlns;$/;"	m	struct:object3d
+normal	engine3d.h	/^    vector3d *normal;$/;"	m	struct:object3d
+norms	engine3d.c	/^point3d norms[MAXDATA];$/;"	v
+nparts	script.c	47;"	d	file:
+npls	engine3d.h	/^    int npts, npls, nlns;$/;"	m	struct:object3d
+npts	engine3d.h	/^    int npts, npls, nlns;$/;"	m	struct:object3d
+nstars3d	precalcs.h	30;"	d
+o_buffer	gp32_functions.h	/^	unsigned char * o_buffer;$/;"	m	struct:tagGPDRAWSURFACE
+object	generate3d.c	/^object3d object[32];$/;"	v
+object3d	engine3d.h	/^typedef struct object3d$/;"	s
+object3d	engine3d.h	/^}object3d;$/;"	t
+objnlns	engine3d.c	/^int objnlns, objnpls;$/;"	v
+objnpls	engine3d.c	/^int objnlns, objnpls;$/;"	v
+ox	gp32_functions.h	/^	int ox;$/;"	m	struct:tagGPDRAWSURFACE
+oy	gp32_functions.h	/^	int oy;$/;"	m	struct:tagGPDRAWSURFACE
+p0	engine3d.h	/^	int p0; tcord tc0;$/;"	m	struct:poly2d
+p0	engine3d.h	/^	int p0;$/;"	m	struct:line2d
+p1	engine3d.h	/^	int p1; tcord tc1;$/;"	m	struct:poly2d
+p1	engine3d.h	/^	int p1;$/;"	m	struct:line2d
+p2	engine3d.h	/^	int p2; tcord tc2;$/;"	m	struct:poly2d
+part	script.c	/^int part=0;$/;"	v
+partime	script.c	/^int partime, prticks;$/;"	v
+pi	effects.h	20;"	d
+play_music	sound.c	/^int play_music = 1;$/;"	v
+plr_pid	sound.c	/^pid_t plr_pid;$/;"	v
+point	engine3d.h	/^    point3d *point;$/;"	m	struct:object3d
+point2d	engine3d.h	/^typedef struct point2d$/;"	s
+point2d	engine3d.h	/^} point2d;$/;"	t
+point3d	engine3d.h	/^typedef struct point3d$/;"	s
+point3d	engine3d.h	/^} point3d;$/;"	t
+point_tc	render3d.c	/^tcord point_tc[MAXDATA];$/;"	v
+poly	engine3d.h	/^    poly2d *poly;$/;"	m	struct:object3d
+poly2d	engine3d.h	/^typedef struct poly2d$/;"	s
+poly2d	engine3d.h	/^} poly2d;$/;"	t
+pos	engine3d.h	/^    pos3d pos;$/;"	m	struct:object3d
+pos3d	engine3d.h	/^typedef struct pos3d$/;"	s
+pos3d	engine3d.h	/^}pos3d;$/;"	t
+prec_flip	precalcs.c	/^int prec_flip = 0;$/;"	v
+prec_framebuffer	precalcs.c	/^unsigned short *prec_framebuffer[2];$/;"	v
+prec_vsync	precalcs.c	/^int prec_vsync = 0;$/;"	v
+prec_ybar	precalcs.c	/^int prec_ybar = 0;$/;"	v
+precalcs	precalcs.c	/^void precalcs()$/;"	f
+precdivs	precalcs.c	/^void precdivs()$/;"	f
+presents	presents.c	/^unsigned short presents[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,$/;"	v
+proj	engine3d.c	/^const float proj = 256;$/;"	v
+proj_shr	engine3d.c	74;"	d	file:
+project3d	engine3d.c	/^void project3d (object3d *obj)$/;"	f
+prticks	script.c	/^int partime, prticks;$/;"	v
+pt_normal	engine3d.h	/^    vector3d *pt_normal;$/;"	m	struct:object3d
+pt_norms	engine3d.c	/^point3d pt_norms[MAXDATA];$/;"	v
+ptbuffer	gp32_functions.h	/^	unsigned char * ptbuffer;$/;"	m	struct:tagGPDRAWSURFACE
+ptime	script.c	/^int fps=0, mo=0, atime=0, ptime=0;$/;"	v
+quicksort	engine3d.c	/^void quicksort (int lo, int hi, int data[])$/;"	f
+quit	script.c	/^int quit=0;$/;"	v
+r	precalcs.h	/^    unsigned char r;$/;"	m	struct:ColorRGB
+ra	effects.c	/^static float ra, zm;$/;"	v	file:
+rang	precalcs.h	32;"	d
+rang2	precalcs.h	33;"	d
+redbull	redbull.c	/^unsigned short redbull[] = {46702,46702,46702,46702,46702,46702,46702,46702,46702,46702,46702,46702,46702,46702,46702,46702,$/;"	v
+redbull_bottom	redbull_bottom.c	/^unsigned short redbull_bottom[] = {25370,23256,21142,21142,21142,21142,19028,19028,21142,19028,19028,16914,14800,16914,16914,19028,$/;"	v
+redbull_top	redbull_top.c	/^unsigned short redbull_top[] = {18822,20938,23116,23116,23050,20938,21002,23050,23052,23052,23116,25166,25230,25166,23116,21002,$/;"	v
+right	gpdef.h	/^	int right;$/;"	m	struct:tagGPRECT
+rot	engine3d.h	/^    rot3d rot;$/;"	m	struct:object3d
+rot3d	engine3d.h	/^typedef struct rot3d$/;"	s
+rot3d	engine3d.h	/^}rot3d;$/;"	t
+rotate3d	engine3d.c	/^void rotate3d (object3d *obj)$/;"	f
+rotate3d_normals	engine3d.c	/^void rotate3d_normals (object3d *obj)$/;"	f
+rotate3d_pt_normals	engine3d.c	/^void rotate3d_pt_normals (object3d *obj)$/;"	f
+rotbitmap	script.c	/^unsigned char rotbitmap[128*128];$/;"	v
+sbuffer	script.c	/^char sbuffer[64];$/;"	v
+scale	gp32_functions.c	/^int scale;$/;"	v
+screen	gp32_functions.c	/^SDL_Surface *screen;$/;"	v
+scsize	precalcs.c	/^int scsize = 4096, starfar = 4096;$/;"	v
+shades	precalcs.c	/^unsigned short shades[MAXSHADES][256];$/;"	v
+shl_theight	precalcs.h	25;"	d
+sig_handler	sound.c	/^static void sig_handler(int s) {$/;"	f	file:
+signal3d	script.c	/^int signal3d = 0;$/;"	v
+size_t	gpdef.h	/^   typedef unsigned int size_t;$/;"	t
+song	sound.c	/^FSOUND_SAMPLE *song = 0;$/;"	v
+spls	engine3d.c	/^point3d spls[MAXDATA];$/;"	v
+spts	engine3d.c	/^point2d spts[MAXDATA];$/;"	v
+sshades	precalcs.c	/^unsigned short sshades[MAXSHADES][256];$/;"	v
+star3dv	precalcs.c	/^float star3dv[nstars3d];$/;"	v
+star3dx	precalcs.c	/^float star3dx[nstars3d];$/;"	v
+star3dy	precalcs.c	/^float star3dy[nstars3d];$/;"	v
+star3dz	precalcs.c	/^float star3dz[nstars3d];$/;"	v
+starfar	precalcs.c	/^int scsize = 4096, starfar = 4096;$/;"	v
+swp	engine3d.c	/^unsigned short swp[MAXDATA];$/;"	v
+sx	effects.c	/^int sx[nstars3d], sy[nstars3d];$/;"	v
+sy	effects.c	/^int sx[nstars3d], sy[nstars3d];$/;"	v
+sz	effects.c	/^float sz[nstars3d];$/;"	v
+tagGPDRAWSURFACE	gp32_functions.h	/^typedef struct tagGPDRAWSURFACE{$/;"	s
+tagGPPOINT	gpdef.h	/^typedef struct tagGPPOINT{$/;"	s
+tagGPRECT	gpdef.h	/^typedef struct tagGPRECT{$/;"	s
+tc0	engine3d.h	/^	int p0; tcord tc0;$/;"	m	struct:poly2d
+tc1	engine3d.h	/^	int p1; tcord tc1;$/;"	m	struct:poly2d
+tc2	engine3d.h	/^	int p2; tcord tc2;$/;"	m	struct:poly2d
+tcord	engine3d.h	/^typedef struct tcord$/;"	s
+tcord	engine3d.h	/^} tcord;$/;"	t
+teapot	teapot.c	/^unsigned char teapot[] = {137,0,120,1,240,0,180,89,128,165,89,91,165,86,91,180,86,128,128,89,76,128,86,76,168,89,88,184,89,128,128,89,$/;"	v
+textbuffer	precalcs.c	/^static char textbuffer[40];$/;"	v	file:
+tm	render3d.c	/^int tm=0;$/;"	v
+top	gpdef.h	/^	int top;$/;"	m	struct:tagGPRECT
+total_precs	precalcs.c	/^int total_precs = 6;$/;"	v
+translate3d	engine3d.c	/^void translate3d (object3d *obj)$/;"	f
+u	engine3d.h	/^    int u, v;$/;"	m	struct:tcord
+uberclamp	precalcs.c	/^unsigned char uberclamp[512];$/;"	v
+ubyte	gpdef.h	55;"	d
+ubyte	gpdef.h	56;"	d
+uchar	gpdef.h	58;"	d
+uchar	gpdef.h	59;"	d
+udword	gpdef.h	73;"	d
+udword	gpdef.h	74;"	d
+ulong	gpdef.h	76;"	d
+ulong	gpdef.h	77;"	d
+update_precbar	precalcs.c	/^void update_precbar(char *prec_msg, int i, int i_full)$/;"	f
+usage_str	ledblur.c	/^const char *usage_str = "Command line options:\\n"$/;"	v
+ushort	gpdef.h	67;"	d
+ushort	gpdef.h	68;"	d
+uword	gpdef.h	64;"	d
+uword	gpdef.h	65;"	d
+v	engine3d.h	/^    int u, v;$/;"	m	struct:tcord
+vbn	engine3d.h	21;"	d
+vector3d	engine3d.h	/^typedef struct vector3d$/;"	s
+vector3d	engine3d.h	/^} vector3d;$/;"	t
+vfirst	gp32_functions.c	/^int vfirst = 0;$/;"	v
+vsync	ledblur.c	/^int vsync=0;$/;"	v
+word	gpdef.h	61;"	d
+word	gpdef.h	62;"	d
+wshade	precalcs.c	/^unsigned short bshade[256], wshade[256];$/;"	v
+wtime	effects.c	/^unsigned int wtime = 0;$/;"	v
+x	engine3d.h	/^	float x;$/;"	m	struct:pos3d
+x	engine3d.h	/^	float x;$/;"	m	struct:rot3d
+x	engine3d.h	/^	int x;$/;"	m	struct:point2d
+x	engine3d.h	/^	int x;$/;"	m	struct:point3d
+x	engine3d.h	/^    int x;$/;"	m	struct:vector3d
+xpp	script.c	/^int xss = 0, xpp = 1;$/;"	v
+xscan	precalcs.c	/^unsigned char xscan[192];$/;"	v
+xss	script.c	/^int xss = 0, xpp = 1;$/;"	v
+y	engine3d.h	/^	float y;$/;"	m	struct:pos3d
+y	engine3d.h	/^	float y;$/;"	m	struct:rot3d
+y	engine3d.h	/^	int y;$/;"	m	struct:point2d
+y	engine3d.h	/^	int y;$/;"	m	struct:point3d
+y	engine3d.h	/^    int y;$/;"	m	struct:vector3d
+ybar_height	precalcs.c	/^int ybar_height = 12;$/;"	v
+ypp	script.c	/^int yss = 0, ypp = 1;$/;"	v
+yscan	precalcs.c	/^unsigned char yscan[92];$/;"	v
+yss	script.c	/^int yss = 0, ypp = 1;$/;"	v
+z	engine3d.h	/^	float z;$/;"	m	struct:pos3d
+z	engine3d.h	/^	float z;$/;"	m	struct:rot3d
+z	engine3d.h	/^	int z;$/;"	m	struct:point3d
+z	engine3d.h	/^    int z;$/;"	m	struct:vector3d
+zbuffer	render3d.c	/^unsigned int zbuffer[GP32_Width*GP32_Height];$/;"	v
+zdata	render3d.c	/^int zdata[MAXDATA];$/;"	v
+zm	effects.c	/^static float ra, zm;$/;"	v	file:
+zsort	render3d.c	/^void zsort(int zsortdata[], object3d *obj)$/;"	f
