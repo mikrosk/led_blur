@@ -74,6 +74,7 @@ void SoundEnd(void)
 }
 
 #else /* use mikmod instead of fmod on unix */
+#if 0
 #include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -82,7 +83,6 @@ void SoundEnd(void)
 
 MODULE *mod;
 pid_t plr_pid;
-
 
 static void sig_handler(int s) {
 	switch(s) {
@@ -97,9 +97,11 @@ static void sig_handler(int s) {
 		break;
 	}
 }
+#endif
 
 
 void SoundInit(void) {
+	#if 0
 	if(!play_music) return;
 
 	MikMod_RegisterAllDrivers();
@@ -115,9 +117,11 @@ void SoundInit(void) {
 		fprintf(stderr, "failed to load %s: %s\n", MOD_FILENAME, MikMod_strerror(MikMod_errno));
 		exit(1);
 	}
+	#endif
 }
 
 void PlaySong(void) {
+	#if 0
 	if(!play_music) return;
 	
 	Player_Start(mod);
@@ -134,15 +138,18 @@ void PlaySong(void) {
 	
 	signal(SIGUSR1, sig_handler);
 	signal(SIGCHLD, sig_handler);
+	#endif
 }
 
 void SoundEnd(void) {
+	#if 0
 	if(!play_music) return;
 
 	if(plr_pid) {
 		kill(plr_pid, SIGUSR1);
 	}
 	MikMod_Exit();
+	#endif
 }
 
 #endif
