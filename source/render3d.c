@@ -175,7 +175,7 @@ void drawline16bit (line2d line, unsigned short *buffer)
 	int y1 = spts[line.p0].y;
 	int x2 = spts[line.p1].x+1;
 	int y2 = spts[line.p1].y;
-	int c =  (31<<11) | (31<<6) | (31<<1);
+	int c =  (31<<11) | (63<<5) | (31<<0);
 
 	int dx, dy, n, l;
 	int x00, y00;

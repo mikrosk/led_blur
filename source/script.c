@@ -259,10 +259,10 @@ void Fade2Shade(unsigned short shade1[], unsigned short shade2[], float pc, unsi
     unsigned int r1, g1, b1, r2, g2, b2;
     for (i=0; i<256; i++)
     {
-        r1 = (shade1[i]>>11) & 0x1F; g1 = (shade1[i]>>6) & 0x1F; b1 = (shade1[i]>>1) & 0x1F;
-        r2 = (shade2[i]>>11) & 0x1F; g2 = (shade2[i]>>6) & 0x1F; b2 = (shade2[i]>>1) & 0x1F;
+        r1 = (shade1[i]>>11) & 0x1F; g1 = (shade1[i]>>5) & 0x3F; b1 = (shade1[i]>>0) & 0x1F;
+        r2 = (shade2[i]>>11) & 0x1F; g2 = (shade2[i]>>5) & 0x3F; b2 = (shade2[i]>>0) & 0x1F;
         r2 = r1 + (r2-r1) * pc; g2 = g1 + (g2-g1) * pc; b2 = b1 + (b2-b1) * pc;
-        shade[i] = (r2<<11) | (g2<<6) | (b2<<1);
+        shade[i] = (r2<<11) | (g2<<5) | (b2<<0);
     }
 }
 

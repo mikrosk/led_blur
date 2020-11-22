@@ -1025,3 +1025,4 @@ unsigned short mindlapse[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+const unsigned int mindlapse_length = sizeof(mindlapse);

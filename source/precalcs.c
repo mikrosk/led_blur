@@ -202,6 +202,9 @@ void MakeColors(unsigned short cols[], ColorRGB c0, ColorRGB c1, int n0, int n1)
 	int i;
 	float dr,dg,db;
 	float cr,cg,cb;
+    
+    c0.g = c0.g == 0 ? 0 : 2*c0.g + 1;
+    c1.g = c1.g == 0 ? 0 : 2*c1.g + 1;
 
 	cr=c0.r; cg=c0.g; cb=c0.b;
 
@@ -212,7 +215,7 @@ void MakeColors(unsigned short cols[], ColorRGB c0, ColorRGB c1, int n0, int n1)
 	for (i=n0; i<=n1; i++)
 	{
 		cr+=dr;	cg+=dg;	cb+=db;
-		cols[i]= ((int)cr<<11) | ((int)cg<<6) | ((int)cb<<1);
+		cols[i]= ((int)cr<<11) | ((int)cg<<5) | ((int)cb<<0);
 	}
 }
 
@@ -230,7 +233,7 @@ void MakeFadeColors()
     for (i=0; i<256; i++)
     {
         bshade[i] = 0;
-        wshade[i] = 0xFFFE;
+        wshade[i] = 0xFFFF;
     }
 }
 
@@ -368,6 +371,15 @@ void WaterInit()
 	prec_ybar++;
 }
 
+static void ConvertTo565(unsigned short tex[], unsigned int length)
+{
+    for (unsigned int i = 0; i < length/2; ++i) {
+        unsigned short r = (tex[i] << 0) & 0xF800;
+        unsigned short g = (tex[i] & 0x07C0) == 0x0000 ? 0x0000 : (tex[i] & 0x07C0) | (1 << 5);
+        unsigned short b = (tex[i] >> 1) & 0x001F;
+        tex[i] = r | g | b;
+    }
+}
 
 void Show3dInit()
 {
@@ -382,6 +394,8 @@ void Show3dInit()
 		ball_c[i] = ball[512+i];
 			if (ball_c[i]>15) ball_c[i]=15;
 	}
+	
+	ConvertTo565(ball_p, sizeof(ball_p));
 
 	for (i=0; i<4096; i++)
 	{
@@ -436,12 +450,43 @@ static void PlasmaInit()
 	prec_ybar++;
 }
 
+static void TextureInit()
+{
+    extern unsigned short env1[];
+    extern const unsigned int env1_length;
+    ConvertTo565(env1, env1_length);
+    
+    extern unsigned short jlh0[];
+    extern const unsigned int jlh0_length;
+    ConvertTo565(jlh0, jlh0_length);
+    
+    extern unsigned short mindlapse[];
+    extern const unsigned int mindlapse_length;
+    ConvertTo565(mindlapse, mindlapse_length);
+    
+    extern unsigned short presents[];
+    extern const unsigned int presents_length;
+    ConvertTo565(presents, presents_length);
+    
+    extern unsigned short redbull_top[];
+    extern const unsigned int redbull_top_length;
+    ConvertTo565(redbull_top, redbull_top_length);
+    
+    extern unsigned short redbull[];
+    extern const unsigned int redbull_length;
+    ConvertTo565(redbull, redbull_length);
+    
+    extern unsigned short redbull_bottom[];
+    extern const unsigned int redbull_bottom_length;
+    ConvertTo565(redbull_bottom, redbull_bottom_length);
+}
+
 void Set8bitPals()
 {
     unsigned int i;
     unsigned short palblur[256];
     for(i = 0 ; i < 256 ; i++)
-        palblur[i] = ((i>>3)<<11) | ((i>>3)<<6) | ((i>>3)<<1) | 0;
+        palblur[i] = ((i>>3)<<11) | ((i>>2)<<5) | ((i>>3)<<0);
     blurpal = GpPaletteCreate(256, palblur);
 }
 
@@ -458,6 +503,8 @@ void precalcs()
 {
 	prec_framebuffer[0] = (unsigned short*)GP32Surface[0].ptbuffer;
 	prec_framebuffer[1] = (unsigned short*)GP32Surface[1].ptbuffer;
+    
+    TextureInit();
 
     precdivs();
     FontInit();

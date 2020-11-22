@@ -159,7 +159,6 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 {
     int x, y;
     unsigned short c;
-    unsigned short r, g, b;
     unsigned short *vram;
     vram=(unsigned short*)screen->pixels;
 
@@ -175,11 +174,7 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                     int yp = (LCD_HEIGHT - 1) * LCD_WIDTH;
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
-                        c = *gp32vram++;
-                        r = c & 0xf800;
-                        g = c & 0x07c0;
-                        b = (c>>1) & 0x001f;
-                        *(vram + yp + x) = r | g | b;
+                        *(vram + yp + x) = *gp32vram++;
                         yp-=LCD_WIDTH;
                     }
                 }
@@ -210,10 +205,6 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
                         c = *gp32vram++;
-                        r = c & 0xf800;
-                        g = c & 0x07c0;
-                        b = (c>>1) & 0x001f;
-                        c = r | g | b;
                         offset = yp + (x << scale);
                         *(vram + offset) = c;
                         *(vram + offset + 1) = c;
