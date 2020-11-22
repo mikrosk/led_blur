@@ -159,11 +159,10 @@ void LogoZoom(unsigned short *vram, int xp, int yp, float zf)
 
 void LogoDistort(unsigned short *vram, int xp, int yp)
 {
-    int x, y, i;
+    int x, y;
     unsigned int c;
     vram += (yp + xp * GP32_Height);
 
-    i = 0;
     int xx = 0, yy = 4;
     unsigned int xd, yd, disp;
     unsigned int tm1 = (prticks>>4) % 75, tm2 = (prticks>>4) % 100;
@@ -183,8 +182,8 @@ void Water(unsigned short *vram)
 {
 	vram+=GP32_Height;
 
-	int i, x, y;
-	int xp, yp = 0;
+	unsigned int i, x, y;
+	unsigned int xp, yp;
 	unsigned char *b1 = ba, *b2 = bb, *bc;
 
 	unsigned int xd, yd;
@@ -447,7 +446,7 @@ void Juhlia(unsigned short *buffer, unsigned short shade[], float xpf, float ypf
 
 void Blur(unsigned char *buffer, unsigned char *vram)
 {
-    unsigned int i, c;
+    unsigned int i, c = 0;
     unsigned int *vram32 = (unsigned int*)(vram+GP32_Height);
     unsigned int *buffer32 = (unsigned int*)(buffer+GP32_Height);
     for (i=GP32_Height; i<Scr_Size-GP32_Height; i+=4)
@@ -461,7 +460,7 @@ void Blur(unsigned char *buffer, unsigned char *vram)
 
 void BlurX2(unsigned char *buffer, unsigned char *vram)
 {
-    unsigned int i, c;
+    unsigned int i, c = 0;
     unsigned int *vram32 = (unsigned int*)(vram+GP32_Height);
     unsigned int *buffer32 = (unsigned int*)(buffer+GP32_Height);
     for (i=GP32_Height; i<Scr_Size-GP32_Height; i+=4)

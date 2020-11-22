@@ -187,7 +187,6 @@ void Keys()
 {
 	unsigned short buttons_event=0;
 	unsigned short buttons_down=0;
-	unsigned short buttons_up=0;
 
 	buttons1 = GpKeyGet();
 	buttons_event = buttons0 ^ buttons1;
@@ -195,7 +194,6 @@ void Keys()
 	if (buttons_event)
 	{
 		buttons_down = buttons_event & buttons1;
-		buttons_up = buttons_event ^ buttons1;
 	}
 
 	buttons0 = buttons1;
@@ -388,7 +386,7 @@ void JuhliaIn()
         Fade2Shade(bshade, sshades[33], (prticks/1024.0), shades[33]);
 
     float fcuk3 = 32768-6144;
-    float ra, zm;
+    float ra = 0, zm = 0;
     if (prticks<fcuk3)
     {
         ra=sin(prticks/fcuk3)*6128.0;
