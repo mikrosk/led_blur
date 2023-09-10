@@ -1,22 +1,30 @@
 include source/makefile.part
-bin = ledblur.tos
 
-warn = -Wall -Wno-unused-variable
-opt = -O2 -m68020-60 -fomit-frame-pointer
-#opt = -O2 -mcpu=5475 -fomit-frame-pointer
+TARGET	:= ledblur.tos
 
-PREFIX = $(shell $(CC) -print-sysroot)/usr
+TOOL_PREFIX := m68k-atari-mintelf
+CC		:= ${TOOL_PREFIX}-gcc
 
-CC = m68k-atari-mint-gcc
-CFLAGS = -std=gnu99 -pedantic $(warn) $(opt) -Isource `$(PREFIX)/bin/m68020-60/sdl-config --cflags` #`libmikmod-config --cflags`
-LDFLAGS = -s -m68020-60 `$(PREFIX)/bin/m68020-60/sdl-config --libs` #`libmikmod-config --libs`
-#CFLAGS = -std=gnu99 -pedantic $(warn) $(opt) -Isource `$(PREFIX)/bin/m475/sdl-config --cflags`
-#LDFLAGS = -s -mcpu=5475 `$(PREFIX)/bin/m5475/sdl-config --libs`
+warn	:= -Wall -Wno-unused-variable
+opt		:= -O2 -m68020-60 -fomit-frame-pointer
+#opt		:= -O2 -mcpu=5475 -fomit-frame-pointer
 
-$(bin):	$(obj)
-	$(CC) -o $@ $(obj) $(LDFLAGS)
-	m68k-atari-mint-flags -S $@
+PREFIX	:= $(shell $(CC) -print-sysroot)/usr
+
+SDL_CFLAGS	:= $(shell $(PREFIX)/bin/m68020-60/sdl-config --cflags)
+SDL_LIBS	:= $(shell $(PREFIX)/bin/m68020-60/sdl-config --libs)
+#SDL_CFLAGS	:= $(shell $(PREFIX)/bin/m5475/sdl-config --cflags)
+#SDL_LIBS	:= $(shell $(PREFIX)/bin/m5475/sdl-config --libs)
+
+CFLAGS	:= -std=gnu99 -pedantic $(warn) $(opt) -Isource $(SDL_CFLAGS) #`libmikmod-config --cflags`
+LDFLAGS	:= -s -m68020-60
+#LDFLAGS	:= -s -mcpu=5475
+LDLIBS	:= $(SDL_LIBS) #`libmikmod-config --libs`
+
+$(TARGET): $(obj)
+	$(CC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
+	${TOOL_PREFIX}-flags -S $@
 
 .PHONY: clean
 clean:
-	rm -f $(obj) $(bin)
+	rm -f $(obj) $(TARGET) *~
