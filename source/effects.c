@@ -120,10 +120,10 @@ void Plasma(unsigned short *vram, unsigned short shade[])
     for (x=0; x<320; x++)
         for (y=0; y<240; y+=8)
         {
-            *vram32++ = shade[(fsin4[x] + fsin6[y] + fsin8[x+y+k]) & 255] | (shade[(fsin4[x] + fsin6[y+1] + fsin8[x+y+k+1]) & 255]<<16);
-            *vram32++ = shade[(fsin4[x] + fsin6[y+2] + fsin8[x+y+k+2]) & 255] | (shade[(fsin4[x] + fsin6[y+3] + fsin8[x+y+k+3]) & 255]<<16);
-            *vram32++ = shade[(fsin4[x] + fsin6[y+4] + fsin8[x+y+k+4]) & 255] | (shade[(fsin4[x] + fsin6[y+5] + fsin8[x+y+k+5]) & 255]<<16);
-            *vram32++ = shade[(fsin4[x] + fsin6[y+6] + fsin8[x+y+k+6]) & 255] | (shade[(fsin4[x] + fsin6[y+7] + fsin8[x+y+k+7]) & 255]<<16);
+            *vram32++ = shade[(fsin4[x] + fsin6[y+1] + fsin8[x+y+k+1]) & 255] | (shade[(fsin4[x] + fsin6[y] + fsin8[x+y+k]) & 255]<<16);
+            *vram32++ = shade[(fsin4[x] + fsin6[y+3] + fsin8[x+y+k+3]) & 255] | (shade[(fsin4[x] + fsin6[y+2] + fsin8[x+y+k+2]) & 255]<<16);
+            *vram32++ = shade[(fsin4[x] + fsin6[y+5] + fsin8[x+y+k+5]) & 255] | (shade[(fsin4[x] + fsin6[y+4] + fsin8[x+y+k+4]) & 255]<<16);
+            *vram32++ = shade[(fsin4[x] + fsin6[y+7] + fsin8[x+y+k+7]) & 255] | (shade[(fsin4[x] + fsin6[y+6] + fsin8[x+y+k+6]) & 255]<<16);
         }
 }
 
@@ -242,7 +242,7 @@ void Water(unsigned short *vram)
 //		        *(b2+1) = c1;
 		        xp = x + ((c0 - *(b2+2))>>2);
                 yp = y + 1 + ((*(b2-GP32_Height+1) - *(b2+GP32_Height+1))>>2);
-		        *vram32 = (jlh0[yp + xp*GP32_Height]<<16) | v0;
+		        *vram32 = jlh0[yp + xp*GP32_Height] | (v0<<16);
 
                 c2 = uberclamp[256 + (( *(b1+1) + *(b1+3) + *(b1-GP32_Height+2) + *(b1+GP32_Height+2))>>1) - *(b2+2)];
 //		        *(b2+2) = c2;
@@ -254,9 +254,9 @@ void Water(unsigned short *vram)
 //		        *(b2+3) = c3;
 		        xp = x + ((c2 - *(b2+4))>>2);
                 yp = y + 3 + ((*(b2-GP32_Height+3) - *(b2+GP32_Height+3))>>2);
-		        *(vram32+1) = (jlh0[yp + xp*GP32_Height]<<16) | v0;
+		        *(vram32+1) = jlh0[yp + xp*GP32_Height] | (v0<<16);
 
-                *bram32 = (c3<<24) | (c2<<16) | (c1<<8) | c0;
+                *bram32 = (c0<<24) | (c1<<16) | (c2<<8) | c3;
 
                 c0 = uberclamp[256 + (( *(b1+3) + *(b1+5) + *(b1-GP32_Height+4) + *(b1+GP32_Height+4))>>1) - *(b2+4)];
 //		        *(b2+4) = c0;
@@ -268,7 +268,7 @@ void Water(unsigned short *vram)
 //		        *(b2+5) = c1;
 		        xp = x + ((c0 - *(b2+6))>>2);
                 yp = y + 5 + ((*(b2-GP32_Height+5) - *(b2+GP32_Height+5))>>2);
-		        *(vram32+2) = (jlh0[yp + xp*GP32_Height]<<16) | v0;
+		        *(vram32+2) = jlh0[yp + xp*GP32_Height] | (v0<<16);
 
                 c2 = uberclamp[256 + (( *(b1+5) + *(b1+7) + *(b1-GP32_Height+6) + *(b1+GP32_Height+6))>>1) - *(b2+6)];
 //		        *(b2+6) = c2;
@@ -280,9 +280,9 @@ void Water(unsigned short *vram)
 //		        *(b2+7) = c3;
 		        xp = x + ((c2 - *(b2+8))>>2);
                 yp = y + 7 + ((*(b2-GP32_Height+7) - *(b2+GP32_Height+7))>>2);
-		        *(vram32+3) = (jlh0[yp + xp*GP32_Height]<<16) | v0;
+		        *(vram32+3) = jlh0[yp + xp*GP32_Height] | (v0<<16);
 
-                *(bram32+1) = (c3<<24) | (c2<<16) | (c1<<8) | c0;
+                *(bram32+1) = (c0<<24) | (c1<<16) | (c2<<8) | c3;
 
                 vram32+=4;
                 bram32+=2;
@@ -670,13 +670,13 @@ void Rotozoomer(unsigned short *vram, unsigned short shade[], float ra, float zm
 		for (y=0; y<GP32_Height; y+=8)
 		{
 			c0 = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]];
-			*vram32++ = (shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]]<<16) | c0;
+			*vram32++ = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]] | (c0<<16);
 			c0 = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]];
-			*vram32++ = (shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]]<<16) | c0;
+			*vram32++ = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]] | (c0<<16);
 			c0 = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]];
-			*vram32++ = (shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]]<<16) | c0;
+			*vram32++ = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]] | (c0<<16);
 			c0 = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]];
-			*vram32++ = (shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]]<<16) | c0;
+			*vram32++ = shade[rotbitmap[((((int)((mx+=dx)>>fp))) & 127) + (((((int)((my+=dy)>>fp))&(Theight-1)) & 127)<<7)]] | (c0<<16);
 		}
 	}
 }
@@ -740,8 +740,8 @@ void Polar(unsigned short *vram, unsigned short shade1[], unsigned short shade2[
                 if (c>255) c = 255;
                 if (c<0) c = 0;
 
-                c1 = (shade1[c]<<16) | c0;
-                c2 = (c0<<16) | shade1[c];
+                c1 = shade1[c] | (c0<<16);
+                c2 = c0 | (shade1[c]<<16);
                 *vram32 = c1;
                 *vram33 = c2;
                 *(vram32+xp) = c1;
@@ -749,8 +749,8 @@ void Polar(unsigned short *vram, unsigned short shade1[], unsigned short shade2[
             }
             else
             {
-                c1 = (shade2[c]<<16) | c0;
-                c2 = (c0<<16) | shade2[c];
+                c1 = shade2[c] | (c0<<16);
+                c2 = c0 | (shade2[c]<<16);
             }
                 *vram32 = c1;
                 *vram33 = c2;
@@ -834,7 +834,7 @@ void Blobs2vram(unsigned short *vram, unsigned short shade[])
     unsigned int i;
     unsigned int *vram32 = (unsigned int*)vram;
     for (i=0; i<Scr_Size; i+=2)
-        *vram32++ = shade[blobbuffer[i]] | (shade[blobbuffer[i+1]]<<16);
+        *vram32++ = shade[blobbuffer[i+1]] | (shade[blobbuffer[i]]<<16);
 }
 
 
@@ -1025,7 +1025,7 @@ void OpenJLH(unsigned short *vram, int ffp)
         xp = (x>>ffp)*GP32_Height;
         for (y=0; y<GP32_Height; y+=2)
         {
-            *vram32++ = (jlh0[xp+y+1]<<16) | jlh0[xp+y];
+            *vram32++ = (jlh0[xp+y]<<16) | jlh0[xp+y+1];
         }
     }
 }
