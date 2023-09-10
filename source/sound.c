@@ -26,7 +26,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <mint/osbind.h>
 
 #define MOD_FILENAME	"retroattivo.mod"
-#define SAMPLE_RATE	49170
+#define SAMPLE_RATE	24585
 
 int play_music = 1;
 
@@ -56,7 +56,7 @@ void SoundInit(void) {
     
     xmp_start_player(c, SAMPLE_RATE, 0);	// 0: stereo 16bit signed (default)
     
-    bufferSize = 2 * 2 * SAMPLE_RATE * 1;	// 2 channels * 16 bit * 49170 Hz * 1 second
+    bufferSize = 2 * 2 * SAMPLE_RATE / 2;	// 2 channels * 16 bit * 49170 Hz * 0.5 second
 
     pBuffer = (char*)Mxalloc(2 * bufferSize, MX_STRAM);
     if (pBuffer == NULL) {
@@ -70,7 +70,7 @@ void SoundInit(void) {
     
     Sndstatus(SND_RESET);
 
-    Devconnect(DMAPLAY, DAC, CLK25M, CLK50K, NO_SHAKE);
+    Devconnect(DMAPLAY, DAC, CLK25M, CLK25K, NO_SHAKE);
 
     Setmode(MODE_STEREO16);
     Soundcmd(ADDERIN, MATIN);
