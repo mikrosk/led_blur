@@ -170,13 +170,14 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
             if (bpp==16)
             {
                 unsigned short *gp32vram = (unsigned short*)gp32v16;
+                vram += (LCD_HEIGHT - 1) * lcd_real_width;
                 for (x=0; x<LCD_WIDTH; x++)
                 {
-                    int yp = (LCD_HEIGHT - 1) * lcd_real_width;
+                	unsigned short *y_vram = vram++;
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
-                        *(vram + yp + x) = *gp32vram++;
-                        yp-=lcd_real_width;
+                        *y_vram = *gp32vram++;
+                        y_vram-=lcd_real_width;
                     }
                 }
             }
@@ -198,20 +199,21 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 		case 1:
             if (bpp==16)
             {
-                int offset;
                 unsigned short *gp32vram = (unsigned short*)gp32v16;
+                vram += (LCD_HEIGHT - 1) * 2 * lcd_real_width;
                 for (x=0; x<LCD_WIDTH; x++)
                 {
-                    int yp = ((LCD_HEIGHT - 1) << scale) * lcd_real_width;
+                    unsigned long *y_vram = (unsigned long*)vram;
+                    vram += 2;
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
                         c = *gp32vram++;
-                        offset = yp + (x << scale);
-                        *(vram + offset) = c;
-                        *(vram + offset + 1) = c;
-                        *(vram + offset + lcd_real_width) = c;
-                        *(vram + offset + lcd_real_width + 1) = c;
-                        yp-=(lcd_real_width << scale);
+                        unsigned long c32 = (c<<16) | c;
+                        
+                        *y_vram = c32;
+                        *(y_vram + lcd_real_width/2) = c32;
+                        
+                        y_vram-=lcd_real_width;
                     }
                 }
             }
