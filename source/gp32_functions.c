@@ -161,6 +161,7 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
     unsigned short c;
     unsigned short *vram;
     vram=(unsigned short*)screen->pixels;
+    const size_t lcd_real_width = screen->pitch / screen->format->BytesPerPixel;
 
     switch(scale)
 	{
@@ -171,11 +172,11 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                 unsigned short *gp32vram = (unsigned short*)gp32v16;
                 for (x=0; x<LCD_WIDTH; x++)
                 {
-                    int yp = (LCD_HEIGHT - 1) * LCD_WIDTH;
+                    int yp = (LCD_HEIGHT - 1) * lcd_real_width;
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
                         *(vram + yp + x) = *gp32vram++;
-                        yp-=LCD_WIDTH;
+                        yp-=lcd_real_width;
                     }
                 }
             }
@@ -201,16 +202,16 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                 unsigned short *gp32vram = (unsigned short*)gp32v16;
                 for (x=0; x<LCD_WIDTH; x++)
                 {
-                    int yp = ((LCD_HEIGHT - 1) << scale) * (LCD_WIDTH << scale);
+                    int yp = ((LCD_HEIGHT - 1) << scale) * lcd_real_width;
                     for (y=LCD_HEIGHT - 1; y>=0; y--)
                     {
                         c = *gp32vram++;
                         offset = yp + (x << scale);
                         *(vram + offset) = c;
                         *(vram + offset + 1) = c;
-                        *(vram + offset + (LCD_WIDTH << scale)) = c;
-                        *(vram + offset + (LCD_WIDTH << scale) + 1) = c;
-                        yp-=((LCD_WIDTH << scale) << scale);
+                        *(vram + offset + lcd_real_width) = c;
+                        *(vram + offset + lcd_real_width + 1) = c;
+                        yp-=(lcd_real_width << scale);
                     }
                 }
             }
@@ -254,11 +255,11 @@ void GpSurfaceFlip(GPDRAWSURFACE * ptgpds, int vs)
 
         SDL_Flip(screen);
 
-        if (vs==1)
-        {
-            int waitime = SDL_GetTicks();
-            while ((SDL_GetTicks() - waitime)<8){};
-        }    
+//        if (vs==1)
+//        {
+//            int waitime = SDL_GetTicks();
+//            while ((SDL_GetTicks() - waitime)<8){};
+//        }    
 }
 
 
