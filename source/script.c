@@ -39,7 +39,7 @@ int modplay=0;
 int buttons0 = 0, buttons1 = 0;
 
 int fps=0, mo=0, atime=0, ptime=0;
-int fps_show=1;
+int fps_show=0;
 char sbuffer[64];
 
 int quit=0;
