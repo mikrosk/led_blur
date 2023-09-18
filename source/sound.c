@@ -25,7 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <mint/falcon.h>
 #include <mint/osbind.h>
 
-#define MOD_FILENAME	"retroattivo.mod"
+#define MOD_FILENAME	"retroatt.mod"
 #define SAMPLE_RATE	24585
 
 int play_music = 1;
@@ -56,7 +56,7 @@ void SoundInit(void) {
     
     xmp_start_player(c, SAMPLE_RATE, 0);	// 0: stereo 16bit signed (default)
     
-    bufferSize = 2 * 2 * SAMPLE_RATE / 2;	// 2 channels * 16 bit * 49170 Hz * 0.5 second
+    bufferSize = 2048*4;	// 2048/24585 = 83ms
 
     pBuffer = (char*)Mxalloc(2 * bufferSize, MX_STRAM);
     if (pBuffer == NULL) {
