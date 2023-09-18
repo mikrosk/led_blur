@@ -159,8 +159,8 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 {
     int x, y;
     unsigned short c;
-    unsigned short *vram;
-    vram=(unsigned short*)screen->pixels;
+    unsigned long *vram;
+    vram=(unsigned long*)screen->pixels;
     const size_t lcd_real_width = screen->pitch / screen->format->BytesPerPixel;
 
     switch(scale)
@@ -169,16 +169,26 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 
             if (bpp==16)
             {
-                unsigned short *gp32vram = (unsigned short*)gp32v16;
-                vram += (LCD_HEIGHT - 1) * lcd_real_width;
-                for (x=0; x<LCD_WIDTH; x++)
+                unsigned long *gp32vram32 = (unsigned long*)gp32v16;
+                vram += (LCD_HEIGHT - 1) * lcd_real_width/2;	// /2 because of 32-bit access
+                for (x=0; x<LCD_WIDTH/2; x++)
                 {
-                	unsigned short *y_vram = vram++;
-                    for (y=LCD_HEIGHT - 1; y>=0; y--)
+                	unsigned long *y_vram1 = vram++;
+                	unsigned long *y_vram2 = y_vram1 - lcd_real_width/2;
+
+                    for (y=LCD_HEIGHT/2; y!=0; y--)
                     {
-                        *y_vram = *gp32vram++;
-                        y_vram-=lcd_real_width;
+                    	const unsigned long c1 = *(gp32vram32 + LCD_HEIGHT/2);	// [x+1,y] | [x+1,y-1]
+                    	const unsigned long c0 = *gp32vram32++;	// [x,y] | [x,y-1]
+
+                    	*y_vram1 = (c0 & 0xFFFF0000) | (c1 >> 16);
+                    	*y_vram2 = (c0 << 16) | (c1 & 0x0000FFFF);
+
+                    	y_vram1 -= lcd_real_width;	// move two lines above (/2 *2 = 1)
+                    	y_vram2 -= lcd_real_width;
                     }
+
+                    gp32vram32 += LCD_HEIGHT/2;
                 }
             }
             else
