@@ -143,9 +143,7 @@ int main(int argc, char *argv[])
 	while (!quit)
 	{
 		Run();
-		UpdateSong();
 		GpSurfaceFlip(&GP32Surface[flip], vsync);
-		UpdateSong();
 		flip=(flip+1)&1;
 	}
     SoundEnd();

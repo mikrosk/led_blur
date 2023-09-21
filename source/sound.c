@@ -17,13 +17,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 /* UNIX port by John Tsiombikas <nuclear@siggraph.org> */
-#include <stdio.h>
-#include <stdlib.h>
 
 #include <libxmp-lite/xmp.h>
-
-#include <mint/falcon.h>
-#include <mint/osbind.h>
+#include <SDL.h>
 
 #define MOD_FILENAME	"retroatt.mod"
 #define SAMPLE_RATE		24585
@@ -32,13 +28,12 @@ int play_music = 1;
 
 static xmp_context c;
 
-static char* pPhysical;
-static char* pLogical;
-static size_t bufferSize;	// size of one buffer
-static char* pBuffer;
+static void callback(void *userdata, Uint8 *stream, int len) {
+	SDL_LockAudio();
 
-static void loadBuffer(char* pBuffer, size_t bufferSize) {
-	xmp_play_buffer(c, pBuffer, bufferSize, 0);
+	xmp_play_buffer(c, stream, len, 0);
+
+	SDL_UnlockAudio();
 }
 
 void SoundInit(void) {
@@ -51,76 +46,40 @@ void SoundInit(void) {
 	xmp_test_module(MOD_FILENAME, &ti);
 
 	if (xmp_load_module(c, MOD_FILENAME) != 0) {
-		exit(EXIT_FAILURE);
+		play_music = 0;
+		return;
 	}
 
 	xmp_start_player(c, SAMPLE_RATE, 0);	// 0: stereo 16bit signed (default)
 
-	bufferSize = 2048*4;	// 2048/24585 = 83ms
+	SDL_AudioSpec desired = {0};
+	desired.freq = SAMPLE_RATE;
+	desired.format = AUDIO_S16MSB;
+	desired.channels = 2;
+	desired.samples = 2048 * 4;	// 83ms * 4
+	desired.callback = callback;
 
-	pBuffer = (char*)Mxalloc(2 * bufferSize, MX_STRAM);
-	if (pBuffer == NULL) {
-		exit(EXIT_FAILURE);
+	if (SDL_OpenAudio(&desired, NULL) < 0 ) {
+		play_music = 0;
+		return;
 	}
-	pPhysical = pBuffer;
-	pLogical = pBuffer + bufferSize;
-
-	loadBuffer(pPhysical, bufferSize);
-	loadBuffer(pLogical, bufferSize);
-
-	Sndstatus(SND_RESET);
-
-	Devconnect(DMAPLAY, DAC, CLK25M, CLK25K, NO_SHAKE);
-
-	Setmode(MODE_STEREO16);
-	Soundcmd(ADDERIN, MATIN);
-	Setbuffer(SR_PLAY, pBuffer, pBuffer + 2*bufferSize);
 }
 
 void PlaySong(void) {
 	if (!play_music)
 		return;
 
-	Buffoper (SB_PLA_ENA | SB_PLA_RPT);
-}
-
-void UpdateSong(void) {
-	if (!play_music)
-		return;
-
-	static int loadSampleFlag = 1;
-
-	SndBufPtr sPtr;
-	if (Buffptr(&sPtr) != 0) {
-		exit(EXIT_FAILURE);
-	}
-
-	if (loadSampleFlag == 0) {
-		// we play from pPhysical (1st buffer)
-		if (sPtr.play < pLogical)
-		{
-			loadBuffer(pLogical, bufferSize);
-			loadSampleFlag = !loadSampleFlag;
-		}
-	} else {
-		// we play from pLogical (2nd buffer)
-		if (sPtr.play >= pLogical) {
-			loadBuffer(pPhysical, bufferSize);
-			loadSampleFlag = !loadSampleFlag;
-		}
-	}
+	SDL_PauseAudio(0);
 }
 
 void SoundEnd(void) {
 	if (!play_music)
 		return;
 
-	Buffoper(0x00);
+	SDL_PauseAudio(1);
+	SDL_CloseAudio();
 
 	xmp_stop_module(c);
 	xmp_end_player(c);
 	xmp_release_module(c);
-
-	Mfree(pBuffer);
-	pBuffer = NULL;
 }
