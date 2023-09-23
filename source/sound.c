@@ -25,6 +25,9 @@
 #include <mint/falcon.h>
 #include <mint/osbind.h>
 
+// see https://github.com/mikrosk/atari_sound_setup
+#include "../../atari_sound_setup.git/atari_sound_setup.h"
+
 #define MOD_FILENAME	"retroatt.mod"
 #define SAMPLE_RATE		24585
 
@@ -34,11 +37,25 @@ static xmp_context c;
 
 static char* pPhysical;
 static char* pLogical;
-static size_t bufferSize;	// size of one buffer
 static char* pBuffer;
+static char* pTempBuffer;
 
-static void loadBuffer(char* pBuffer, size_t bufferSize) {
-	xmp_play_buffer(c, pBuffer, bufferSize, 0);
+static AudioSpec obtained_format;
+
+static void loadBuffer(char* pBuffer) {
+	if (pTempBuffer) {
+		xmp_play_buffer(c, pTempBuffer, obtained_format.size, 0);
+
+		short* s = (short*)pTempBuffer;
+		short* d = (short*)pBuffer;
+		size_t size = obtained_format.size;
+
+		while (size--) {
+			*d++ = __builtin_bswap16(*s++);
+		}
+	} else {
+		xmp_play_buffer(c, pBuffer, obtained_format.size, 0);
+	}
 }
 
 void SoundInit(void) {
@@ -54,27 +71,52 @@ void SoundInit(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	xmp_start_player(c, SAMPLE_RATE, 0);	// 0: stereo 16bit signed (default)
+	AudioSpec desired;
+	desired.frequency = SAMPLE_RATE;
+	desired.channels = 2;
+	desired.format = AudioFormatSigned16MSB;
+	desired.samples = 2048;	// 2048/24585 = 83ms
 
-	bufferSize = 2048*4;	// 2048/24585 = 83ms
+	if (!AtariSoundSetupInitXbios(&desired, &obtained_format)) {
+		exit(EXIT_FAILURE);
+	}
 
-	pBuffer = (char*)Mxalloc(2 * bufferSize, MX_STRAM);
+	int format = 0;
+	if (obtained_format.format == AudioFormatSigned8
+		|| obtained_format.format == AudioFormatUnsigned8) {
+		format |= XMP_FORMAT_8BIT;
+	}
+
+	if (obtained_format.format == AudioFormatUnsigned8
+		|| obtained_format.format == AudioFormatUnsigned16LSB
+		|| obtained_format.format == AudioFormatUnsigned16MSB) {
+		format |= XMP_FORMAT_UNSIGNED;
+	}
+
+	if (obtained_format.channels == 1) {
+		format |= XMP_FORMAT_MONO;
+	}
+
+	xmp_start_player(c, obtained_format.frequency, format);
+
+	if (obtained_format.format == AudioFormatSigned16LSB
+		|| obtained_format.format == AudioFormatUnsigned16LSB) {
+		pTempBuffer = (char*)Mxalloc(obtained_format.size, MX_PREFTTRAM);
+		if (pTempBuffer == NULL) {
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	pBuffer = (char*)Mxalloc(2 * obtained_format.size, MX_STRAM);
 	if (pBuffer == NULL) {
 		exit(EXIT_FAILURE);
 	}
 	pPhysical = pBuffer;
-	pLogical = pBuffer + bufferSize;
+	pLogical = pBuffer + obtained_format.size;
 
-	loadBuffer(pPhysical, bufferSize);
-	loadBuffer(pLogical, bufferSize);
+	loadBuffer(pPhysical);
 
-	Sndstatus(SND_RESET);
-
-	Devconnect(DMAPLAY, DAC, CLK25M, CLK25K, NO_SHAKE);
-
-	Setmode(MODE_STEREO16);
-	Soundcmd(ADDERIN, MATIN);
-	Setbuffer(SR_PLAY, pBuffer, pBuffer + 2*bufferSize);
+	Setbuffer(SR_PLAY, pBuffer, pBuffer + 2*obtained_format.size);
 }
 
 void PlaySong(void) {
@@ -88,7 +130,7 @@ void UpdateSong(void) {
 	if (!play_music)
 		return;
 
-	static int loadSampleFlag = 1;
+	static int loadSampleFlag;
 
 	SndBufPtr sPtr;
 	if (Buffptr(&sPtr) != 0) {
@@ -99,13 +141,13 @@ void UpdateSong(void) {
 		// we play from pPhysical (1st buffer)
 		if (sPtr.play < pLogical)
 		{
-			loadBuffer(pLogical, bufferSize);
+			loadBuffer(pLogical);
 			loadSampleFlag = !loadSampleFlag;
 		}
 	} else {
 		// we play from pLogical (2nd buffer)
 		if (sPtr.play >= pLogical) {
-			loadBuffer(pPhysical, bufferSize);
+			loadBuffer(pPhysical);
 			loadSampleFlag = !loadSampleFlag;
 		}
 	}
@@ -121,6 +163,10 @@ void SoundEnd(void) {
 	xmp_end_player(c);
 	xmp_release_module(c);
 
+	AtariSoundSetupDeinitXbios();
+
 	Mfree(pBuffer);
 	pBuffer = NULL;
+	Mfree(pTempBuffer);
+	pTempBuffer = NULL;
 }
