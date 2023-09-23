@@ -43,6 +43,7 @@ extern int partime;
 extern int scale;
 extern int fullscreen;
 extern int play_music;
+extern int fps_show;
 
 static void ClearScreen(int page, int c)
 {
@@ -100,6 +101,7 @@ const char *usage_str = "Command line options:\n"
 	"-f\tfullscreen\n"
 	"-s\tscale to 640x480\n"
 	"-m\tno music\n"
+	"-p\tprint fps\n"
 	"-h\thelp (this usage info)\n";
 
 int main(int argc, char *argv[])
@@ -123,6 +125,10 @@ int main(int argc, char *argv[])
 
 			case 'm':
 				play_music = 0;
+				break;
+
+			case 'p':
+				fps_show = 1;
 				break;
 
 			case 'h':
