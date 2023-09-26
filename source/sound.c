@@ -38,24 +38,11 @@ static xmp_context c;
 static char* pPhysical;
 static char* pLogical;
 static char* pBuffer;
-static char* pTempBuffer;
 
-static AudioSpec obtained_format;
+static AudioSpec obtained;
 
 static void loadBuffer(char* pBuffer) {
-	if (pTempBuffer) {
-		xmp_play_buffer(c, pTempBuffer, obtained_format.size, 0);
-
-		short* s = (short*)pTempBuffer;
-		short* d = (short*)pBuffer;
-		size_t size = obtained_format.size;
-
-		while (size--) {
-			*d++ = __builtin_bswap16(*s++);
-		}
-	} else {
-		xmp_play_buffer(c, pBuffer, obtained_format.size, 0);
-	}
+	xmp_play_buffer(c, pBuffer, obtained.size, 0);
 }
 
 void SoundInit(void) {
@@ -77,46 +64,43 @@ void SoundInit(void) {
 	desired.format = AudioFormatSigned16MSB;
 	desired.samples = 2048;	// 2048/24585 = 83ms
 
-	if (!AtariSoundSetupInitXbios(&desired, &obtained_format)) {
+	if (!AtariSoundSetupInitXbios(&desired, &obtained)) {
 		exit(EXIT_FAILURE);
 	}
 
 	int format = 0;
-	if (obtained_format.format == AudioFormatSigned8
-		|| obtained_format.format == AudioFormatUnsigned8) {
+	if (obtained.format == AudioFormatSigned8
+		|| obtained.format == AudioFormatUnsigned8) {
 		format |= XMP_FORMAT_8BIT;
 	}
 
-	if (obtained_format.format == AudioFormatUnsigned8
-		|| obtained_format.format == AudioFormatUnsigned16LSB
-		|| obtained_format.format == AudioFormatUnsigned16MSB) {
+	if (obtained.format == AudioFormatUnsigned8
+		|| obtained.format == AudioFormatUnsigned16LSB
+		|| obtained.format == AudioFormatUnsigned16MSB) {
 		format |= XMP_FORMAT_UNSIGNED;
 	}
 
-	if (obtained_format.channels == 1) {
+	if (obtained.channels == 1) {
 		format |= XMP_FORMAT_MONO;
 	}
 
-	xmp_start_player(c, obtained_format.frequency, format);
-
-	if (obtained_format.format == AudioFormatSigned16LSB
-		|| obtained_format.format == AudioFormatUnsigned16LSB) {
-		pTempBuffer = (char*)Mxalloc(obtained_format.size, MX_PREFTTRAM);
-		if (pTempBuffer == NULL) {
-			exit(EXIT_FAILURE);
-		}
+	if (obtained.format == AudioFormatSigned16LSB
+		|| obtained.format == AudioFormatUnsigned16LSB) {
+		format |= XMP_FORMAT_BYTESWAP;
 	}
 
-	pBuffer = (char*)Mxalloc(2 * obtained_format.size, MX_STRAM);
+	xmp_start_player(c, obtained.frequency, format);
+
+	pBuffer = (char*)Mxalloc(2 * obtained.size, MX_STRAM);
 	if (pBuffer == NULL) {
 		exit(EXIT_FAILURE);
 	}
 	pPhysical = pBuffer;
-	pLogical = pBuffer + obtained_format.size;
+	pLogical = pBuffer + obtained.size;
 
 	loadBuffer(pPhysical);
 
-	Setbuffer(SR_PLAY, pBuffer, pBuffer + 2*obtained_format.size);
+	Setbuffer(SR_PLAY, pBuffer, pBuffer + 2*obtained.size);
 }
 
 void PlaySong(void) {
@@ -167,6 +151,4 @@ void SoundEnd(void) {
 
 	Mfree(pBuffer);
 	pBuffer = NULL;
-	Mfree(pTempBuffer);
-	pTempBuffer = NULL;
 }
