@@ -26,6 +26,41 @@ Miro Kropacek aka MiKRO / Mystic Bytes
 10.09.2023, Kosice / Slovakia
 http://mikro.atari.org
 
+Update 02.10.2023:
+------------------
+
+After some feedback I have assembled a new version with following updates:
+
+- fixed sound on Milan / Hades (both MilanBlaster and GSXB are supported)
+- fixed SDL_VIDEODRIVER=xbios on CTPCI, Milan and TT+NOVA graphics card
+- fixed Falcon RGB monitor output
+- fixed SuperVidel monitor output
+- optimised the RGB565 draw loop
+- optimised audio sample buffer (rendering isn't affected by playback anymore)
+- disabled FPS display and added '-p' parameter to bring it back
+- added a version for graphics card with little endian pixel format
+- renamed the mod file to an 8+3 filename
+
+Please note that the audio driver is custom, i.e. SDL_AUDIODRIVER has no
+effect. I tried it but it was like 10x slower, perhaps some internal resampling
+was taking place (even if it shouldn't have). I have reported it to Patrice
+Mandin.
+
+Most of the fixes were SDL-related so make sure you use my SDL branch for your
+SDL projects: https://github.com/mikrosk/SDL-1.2. However there are still some
+SDL bugs left, e.g. SDL_VIDEODRIVER=xbios with NOVA doesn't work at all.
+
+When looking for system-friendly audio XBIOS handling, take a look here:
+https://github.com/mikrosk/atari_sound_setup. Hopefully one day it will find
+its way into SDL.
+
+The demo uses a modified version of libxmp-lite, patched with support for
+byte swapping: https://github.com/mikrosk/build-scripts/blob/master/libxmp-lite.patch.
+
+lb_be.tos: Atari version, standard (big endian) pixel format support.
+lb_le.tos: Atari version, NOVA/ET4000 (little endian) pixel format support.
+lb_fb.tos: FireBee version.
+
 ------------------------------------------------
 Led Blur (Windows port) - by Optimus / Mindlapse
 ------------------------------------------------
