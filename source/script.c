@@ -227,7 +227,7 @@ void InitGraphics(int depth);
 
 void checkmode()
 {
-
+	/*
 	if (chpart)
 	{
 		chpart=0;
@@ -243,6 +243,7 @@ void checkmode()
 	   }
 	   InitGraphics(bpp[part]);
 	}
+	*/
 }
 
 

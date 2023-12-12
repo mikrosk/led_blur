@@ -1,6 +1,6 @@
 include source/makefile.part
 
-TARGET	:= ledblur.tos
+TARGET	:= led_blur.gtp
 
 TOOL_PREFIX := m68k-atari-mintelf
 CC		:= ${TOOL_PREFIX}-gcc
