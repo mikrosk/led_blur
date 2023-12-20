@@ -56,8 +56,8 @@ extern int quit;
 
 int vfirst = 0;
 int cur_bpp;
-int fullscreen;
-
+int fullscreen = 0;
+int double_buffer = 0;
 
 void KeyCommands()
 {
@@ -110,23 +110,23 @@ int GpKeyGet()
 int GpGraphicModeSet(int gd_bpp, int * gp_pal)
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-    if (vfirst!=0)
-    {
-        free(GpScreen[0]);
-        free(GpScreen[1]);
-    }
+	if (vfirst!=0)
+	{
+		free(GpScreen[0]);
+		free(GpScreen[1]);
+	}
 
-    screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, 16, SDL_HWSURFACE | fullscreen);
-    if ( screen == NULL ) {
-        fprintf(stderr, "Unable to set video mode: %s\n", SDL_GetError());
-        return(1);
-    }
+	screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, 16, SDL_HWSURFACE | fullscreen | double_buffer);
+	if ( screen == NULL ) {
+		fprintf(stderr, "Unable to set video mode: %s\n", SDL_GetError());
+		return(1);
+	}
 	atexit(SDL_Quit);
 
-    GpScreen[0] = (unsigned short*)malloc(sizeof(GpScreen[0]) * (LCD_WIDTH * LCD_HEIGHT));
-    GpScreen[1] = (unsigned short*)malloc(sizeof(GpScreen[1]) * (LCD_WIDTH * LCD_HEIGHT));
-    cur_bpp = gd_bpp;
-    vfirst = 1;
+	GpScreen[0] = (unsigned short*)malloc(sizeof(GpScreen[0]) * (LCD_WIDTH * LCD_HEIGHT));
+	GpScreen[1] = (unsigned short*)malloc(sizeof(GpScreen[1]) * (LCD_WIDTH * LCD_HEIGHT));
+	cur_bpp = gd_bpp;
+	vfirst = 1;
 
 	return 0;
 }
@@ -134,12 +134,12 @@ int GpGraphicModeSet(int gd_bpp, int * gp_pal)
 
 int GpLcdSurfaceGet(GPDRAWSURFACE * ptgpds, int idx)
 {
-    ptgpds->bpp = cur_bpp;
-    ptgpds->buf_w = LCD_WIDTH;
-    ptgpds->buf_h = LCD_HEIGHT;
-    ptgpds->ox = 0;
-    ptgpds->oy = 0;
-    ptgpds->ptbuffer = (unsigned char*)GpScreen[idx];
+	ptgpds->bpp = cur_bpp;
+	ptgpds->buf_w = LCD_WIDTH;
+	ptgpds->buf_h = LCD_HEIGHT;
+	ptgpds->ox = 0;
+	ptgpds->oy = 0;
+	ptgpds->ptbuffer = (unsigned char*)GpScreen[idx];
 	return 0;
 }
 

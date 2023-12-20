@@ -22,7 +22,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "precalcs.h"
 #include "gp32_functions.h"
 #include "script.h"
-//#include "chn_functions.h"
 #include "sound.h"
 #undef main
 
@@ -34,9 +33,6 @@ GPDRAWSURFACE GP32Surface[2];
 int flip=0;
 int vsync=0;
 
-//extern unsigned char modfile1[];
-//MODPlay mymod;
-
 extern int quit;
 extern int partime;
 
@@ -44,6 +40,7 @@ extern int scale;
 extern int fullscreen;
 extern int play_music;
 extern int fps_show;
+extern int double_buffer;
 
 static void ClearScreen(int page, int c)
 {
@@ -61,7 +58,6 @@ void InitGraphics(int depth)
 
 	GpLcdSurfaceGet(&GP32Surface[0], 0);
 	GpLcdSurfaceGet(&GP32Surface[1], 1);
-//	GpSurfaceSet(&GP32Surface[0]);
 
 	framebuffer[0] = (unsigned char*)GP32Surface[0].ptbuffer;
 	framebuffer[1] = (unsigned char*)GP32Surface[1].ptbuffer;
@@ -72,36 +68,34 @@ static void InitMusic()
 {
     SoundInit();
     PlaySong();
-//	MODPlay_Init (&mymod);
-//	MODPlay_SetMOD (&mymod, &modfile1);
-//	MODPlay_Start (&mymod);
 }
 
 
 static void Init()
 {
 	InitGraphics(16);
-    SDL_WM_SetCaption ("Led Blur PC by Optimus/Mindlapse", 0);
-    SDL_ShowCursor(SDL_DISABLE);
+	SDL_WM_SetCaption ("Led Blur PC by Optimus/Mindlapse", 0);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	ClearScreen(0, 0x80a0);
 	ClearScreen(1, 0x80a0);
 
-    InitFonts();
+	InitFonts();
 	precalcs();
 
 	ClearScreen(0, 0);
 	ClearScreen(1, 0);
 
 	InitMusic();
-    partime = Ticks();	
+	partime = Ticks();
 }
 
 const char *usage_str = "Command line options:\n"
+	"-d\tdouble buffering\n"
 	"-f\tfullscreen\n"
-	"-s\tscale to 640x480\n"
 	"-m\tno music\n"
 	"-p\tprint fps\n"
+	"-s\tscale to 640x480\n"
 	"-h\thelp (this usage info)\n";
 
 int main(int argc, char *argv[])
@@ -129,6 +123,10 @@ int main(int argc, char *argv[])
 
 			case 'p':
 				fps_show = 1;
+				break;
+
+			case 'd':
+				double_buffer = SDL_DOUBLEBUF;
 				break;
 
 			case 'h':
