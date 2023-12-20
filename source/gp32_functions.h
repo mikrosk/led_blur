@@ -32,10 +32,10 @@ typedef struct tagGPDRAWSURFACE{
 	unsigned char * o_buffer;
 } GPDRAWSURFACE;
 
-int GpLcdSurfaceGet(GPDRAWSURFACE * ptgpds, int idx);
+int GpLcdSurfaceGet(GPDRAWSURFACE * ptgpds);
 
-int GpGraphicModeSet(int gd_bpp, int * gp_pal);
-void GpSurfaceFlip(GPDRAWSURFACE * ptgpds, int vs);
+int GpGraphicModeSet(int gd_bpp);
+void GpSurfaceFlip(GPDRAWSURFACE * ptgpds);
 
 
 typedef unsigned int* GP_HPALETTE;

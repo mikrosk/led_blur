@@ -25,15 +25,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "effects.h"
 #include "precalcs.h"
 
-extern unsigned char *framebuffer[2];
-extern GPDRAWSURFACE GP32Surface[2];
-
-//extern MODPlay mymod;
+extern unsigned char *framebuffer;
+extern GPDRAWSURFACE GP32Surface;
 
 extern int clockspeed;
-extern int vsync;
 
-extern int flip;
 int modplay=0;
 
 int buttons0 = 0, buttons1 = 0;
@@ -178,7 +174,7 @@ void CountFps(int show)
 	if (show==1)
 	{
 		sprintf(sbuffer, "FPS = %d", mo);
-        DrawText(8, 16, 16, sbuffer, bpp[part], &GP32Surface[flip]);
+	DrawText(8, 16, 16, sbuffer, bpp[part], &GP32Surface);
 	}
 }
 
@@ -199,25 +195,6 @@ void Keys()
 	buttons0 = buttons1;
 
 
-	if (buttons_down & GPC_VK_SELECT)
-		vsync=(vsync+1)&1;
-
-/*
-	if (buttons_down & GPC_VK_FL)
-	{
-		part--;
-		if (part<0) part = nparts - 1;
-        partime = Ticks();
-		chpart=1;
-	}
-
-	if (buttons_down & GPC_VK_FR)
-	{
-		part=(part+1)%nparts;
-        partime = Ticks();
-		chpart=1;
-	}
-*/
 	if (buttons_down & GPC_VK_FB)
 		fps_show=(fps_show+1)&1;
 }
@@ -231,17 +208,8 @@ void checkmode()
 	if (chpart)
 	{
 		chpart=0;
-	   if (bpp[part]==16)
-	   {
-		framebuffer[0] = (unsigned char*)GP32Surface[0].ptbuffer;
-		framebuffer[1] = (unsigned char*)GP32Surface[1].ptbuffer;
-	   }
-	   else
-	   {
-		framebuffer[0] = (unsigned char*)GP32Surface[0].ptbuffer;
-		framebuffer[1] = (unsigned char*)GP32Surface[1].ptbuffer;
-	   }
-	   InitGraphics(bpp[part]);
+		framebuffer = (unsigned char*)GP32Surface.ptbuffer;
+		InitGraphics(bpp[part]);
 	}
 	*/
 }
@@ -279,19 +247,19 @@ void WaterPart()
 {
     int cc;
     if (prticks<1024)
-        OpenJLH((unsigned short*)framebuffer[flip], (1023 - prticks)>>6);
+	OpenJLH((unsigned short*)framebuffer, (1023 - prticks)>>6);
     else 
     {
-        Water((unsigned short*)framebuffer[flip]);
-        RunScene3d((unsigned short*)framebuffer[flip], 16);
+	Water((unsigned short*)framebuffer);
+	RunScene3d((unsigned short*)framebuffer, 16);
     }
 
     if (prticks>8191)
     {
         if (prticks<16384)
-            DrawText16(72, 224, "Code:Optimus", (unsigned short*)framebuffer[flip]);
+	    DrawText16(72, 224, "Code:Optimus", (unsigned short*)framebuffer);
         else if (prticks<16384+8192)
-            DrawText16(20, 12, "Music:The Hardliner", (unsigned short*)framebuffer[flip]);
+	    DrawText16(20, 12, "Music:The Hardliner", (unsigned short*)framebuffer);
     }
 
     if (prticks>24576+2048+320 && prticks<24576+2048+512+320)
@@ -299,15 +267,15 @@ void WaterPart()
         cc = (int)(((float)(prticks-24576-2048-320)/511.0) * 160.0);
         if (cc>=155)
             cc = 160;
-        Close ((unsigned short*)framebuffer[flip], cc);
+	Close ((unsigned short*)framebuffer, cc);
     }
     if (prticks>24576+2048+512+320 && prticks<24576+2048+512+1640)
     {
-        ClearScreen((unsigned short*)framebuffer[flip],0);
+	ClearScreen((unsigned short*)framebuffer,0);
     }
     if (prticks>24576+2048+512+1640)
     {
-        ClearScreen((unsigned short*)framebuffer[flip],0);
+	ClearScreen((unsigned short*)framebuffer,0);
         partime = Ticks();
         part = 7;
         quit = 1;
@@ -316,12 +284,12 @@ void WaterPart()
 
 void PlasmaCube()
 {
-//    ClearScreen((unsigned short*)framebuffer[flip],0);
-    OpenJLH((unsigned short*)framebuffer[flip], 31);
-	RunScene3d((unsigned short*)framebuffer[flip], 4);
+//    ClearScreen((unsigned short*)framebuffer,0);
+    OpenJLH((unsigned short*)framebuffer, 31);
+	RunScene3d((unsigned short*)framebuffer, 4);
 
     if (prticks<2048)
-        PlasmaFade2((unsigned short*)framebuffer[flip],shades[34], 255 - (prticks>>3));
+	PlasmaFade2((unsigned short*)framebuffer,shades[34], 255 - (prticks>>3));
     if (prticks>16384-4096)
     {
         partime = Ticks();
@@ -332,13 +300,13 @@ void PlasmaCube()
 void PlasmaFace()
 {
     if (prticks<4096)
-    	PlasmaFade((unsigned short*)framebuffer[flip],shades[34],prticks>>4);
+	PlasmaFade((unsigned short*)framebuffer,shades[34],prticks>>4);
     else
-        Plasma((unsigned short*)framebuffer[flip],shades[34]);
+	Plasma((unsigned short*)framebuffer,shades[34]);
 
     int adj3 = -1536;
     if (prticks>8191+adj3)
-        RunScene3d((unsigned short*)framebuffer[flip], 3);
+	RunScene3d((unsigned short*)framebuffer, 3);
     if (prticks>49152+4096)
     {
         partime = Ticks();
@@ -368,16 +336,15 @@ void JuhliaBig()
     {
     	xp = 6128;
     	yp = 6510;
-    	ClearScreen((unsigned short*)framebuffer[flip],shades[16][0]);
-    	ClearScreen((unsigned short*)framebuffer[(flip+1)&1],shades[16][0]);
+	ClearScreen((unsigned short*)framebuffer,shades[16][0]);
         partime = Ticks();
         part = 5;
     }
 
     if (prticks<24576+2048)
     {
-        Juhlia((unsigned short*)framebuffer[flip], shades[16], xp, yp);
-    	RunScene3d((unsigned short*)framebuffer[flip],0);
+	Juhlia((unsigned short*)framebuffer, shades[16], xp, yp);
+	RunScene3d((unsigned short*)framebuffer,0);
     }
 }
 
@@ -406,7 +373,7 @@ void JuhliaIn()
     }
 
     Juhlia128(rotbitmap);
-    Rotozoomer((unsigned short*)framebuffer[flip],shades[33], ra, zm);
+    Rotozoomer((unsigned short*)framebuffer,shades[33], ra, zm);
 }
 
 void PolarTunnel()
@@ -433,13 +400,13 @@ void PolarTunnel()
         part = 3;
     }
 
-    Polar((unsigned short*)framebuffer[flip],shades[11],shades[12]);
+    Polar((unsigned short*)framebuffer,shades[11],shades[12]);
 }
 
 void RedBull()
 {
-    BlobStars3D((unsigned short*)framebuffer[flip]);
-    RunScene3d((unsigned short*)framebuffer[flip], 24);
+    BlobStars3D((unsigned short*)framebuffer);
+    RunScene3d((unsigned short*)framebuffer, 24);
 
     int fcuk = 8192;
     if (prticks>16384+fcuk+16384-512 - 128)
@@ -499,12 +466,12 @@ void Space()
         }
     }
 
-    BlobStars3D((unsigned short*)framebuffer[flip]);
+    BlobStars3D((unsigned short*)framebuffer);
 
-    if (prticks<tmlogo) LogoDistort((unsigned short*)framebuffer[flip], 64, 78);
-        else if (prticks<tmlogo+1024) LogoZoom((unsigned short*)framebuffer[flip], 96, 108, ((float)(prticks-tmlogo)/1024.0));
-            else if (prticks<tmlogo+3072) LogoZoom((unsigned short*)framebuffer[flip], 96, 108, 1);
-                else if (prticks<tmlogo+4096) LogoZoom((unsigned short*)framebuffer[flip], 96, 108, 1.0 - ((float)(prticks-tmlogo-3072)/1024.0));
+    if (prticks<tmlogo) LogoDistort((unsigned short*)framebuffer, 64, 78);
+	else if (prticks<tmlogo+1024) LogoZoom((unsigned short*)framebuffer, 96, 108, ((float)(prticks-tmlogo)/1024.0));
+	    else if (prticks<tmlogo+3072) LogoZoom((unsigned short*)framebuffer, 96, 108, 1);
+		else if (prticks<tmlogo+4096) LogoZoom((unsigned short*)framebuffer, 96, 108, 1.0 - ((float)(prticks-tmlogo-3072)/1024.0));
                     else
                     {
                         partime = Ticks();
@@ -539,7 +506,7 @@ void Script()
 			bpp[part]=16;
 			checkmode();
 			PolarTunnel();
-			RunScene3d((unsigned short*)framebuffer[flip], 20);
+			RunScene3d((unsigned short*)framebuffer, 20);
 		break;
 
 		case 3:
@@ -569,12 +536,12 @@ void Script()
 		case 7:
 			bpp[part] = 16;
 			checkmode();
-            ClearScreen((unsigned short*)framebuffer[flip],0);
+	    ClearScreen((unsigned short*)framebuffer,0);
             quit = 1;
-//			RunScene3d((unsigned short*)framebuffer[flip],2);
+//			RunScene3d((unsigned short*)framebuffer,2);
 //            GpPaletteSelect(blurpal);
 //			RunScene3d(blur1,1);
-//			Blur(blur1, framebuffer[flip]);
+//			Blur(blur1, framebuffer);
 		break;
 
 		case 8:

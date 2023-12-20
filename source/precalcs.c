@@ -30,14 +30,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 // Precalc screen variables
 // ======================
 
-int prec_vsync = 0;
-
-int prec_flip = 0;
-unsigned short *prec_framebuffer[2];
+static unsigned short *prec_framebuffer;
 static char textbuffer[40];
 
-extern GPDRAWSURFACE GP32Surface[2];
-extern unsigned char *framebuffer[2];
+extern GPDRAWSURFACE GP32Surface;
 
 int prec_ybar = 0;
 int ybar_height = 12;
@@ -172,7 +168,7 @@ void update_precbar(char *prec_msg, int i, int i_full)
 		x0 = GP32_Width/2 - 1 - halfbar;
 		x1 = GP32_Width/2 + halfbar;
 
-		vram = prec_framebuffer[prec_flip] + x0*GP32_Height + y0;
+		vram = prec_framebuffer + x0*GP32_Height + y0;
 
 		for (x=x0; x<x1; x++)
 		{
@@ -186,10 +182,9 @@ void update_precbar(char *prec_msg, int i, int i_full)
 		sprintf(textbuffer, "%s (%d/%d)", prec_msg, prec_ybar+1, total_precs);
 		int xc = GP32_Width/2 - ((strlen(textbuffer)>>1)<<3);
 		int yc = prec_ybar*ybar_height - 3;
-        DrawText(xc, yc+13, strlen(textbuffer), textbuffer, 16, &GP32Surface[prec_flip]);
+		DrawText(xc, yc+13, strlen(textbuffer), textbuffer, 16, &GP32Surface);
 
-		GpSurfaceFlip(&GP32Surface[prec_flip], prec_vsync);
-        prec_flip = (prec_flip + 1) & 1;
+		GpSurfaceFlip(&GP32Surface);
 	}
 
 }
@@ -501,18 +496,17 @@ void FontInit()
 
 void precalcs()
 {
-	prec_framebuffer[0] = (unsigned short*)GP32Surface[0].ptbuffer;
-	prec_framebuffer[1] = (unsigned short*)GP32Surface[1].ptbuffer;
-    
+    prec_framebuffer = (unsigned short*)GP32Surface.ptbuffer;
+
     TextureInit();
 
     precdivs();
     FontInit();
 
-	PlasmaInit();
-	PolarInit();
-	Show3dInit();
-	WaterInit();
+    PlasmaInit();
+    PolarInit();
+    Show3dInit();
+    WaterInit();
     BlobInit();
     Stars3dInit();
     DistortInit();

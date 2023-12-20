@@ -46,7 +46,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 SDL_Surface *screen;
-unsigned short *GpScreen[2];
+unsigned short *GpScreen = NULL;
 
 int scale;
 unsigned int gp_palette[256];
@@ -54,7 +54,6 @@ unsigned int gp_palette[256];
 unsigned int keys[512];
 extern int quit;
 
-int vfirst = 0;
 int cur_bpp;
 int fullscreen = 0;
 int double_buffer = 0;
@@ -107,39 +106,33 @@ int GpKeyGet()
 }
 
 
-int GpGraphicModeSet(int gd_bpp, int * gp_pal)
+int GpGraphicModeSet(int gd_bpp)
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-	if (vfirst!=0)
-	{
-		free(GpScreen[0]);
-		free(GpScreen[1]);
-	}
+	free(GpScreen);
 
-	screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, 16, SDL_HWSURFACE | fullscreen | double_buffer);
+	screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, gd_bpp, SDL_HWSURFACE | fullscreen | double_buffer);
 	if ( screen == NULL ) {
 		fprintf(stderr, "Unable to set video mode: %s\n", SDL_GetError());
 		return(1);
 	}
 	atexit(SDL_Quit);
 
-	GpScreen[0] = (unsigned short*)malloc(sizeof(GpScreen[0]) * (LCD_WIDTH * LCD_HEIGHT));
-	GpScreen[1] = (unsigned short*)malloc(sizeof(GpScreen[1]) * (LCD_WIDTH * LCD_HEIGHT));
+	GpScreen = (unsigned short*)malloc(sizeof(*GpScreen) * (LCD_WIDTH * LCD_HEIGHT));
 	cur_bpp = gd_bpp;
-	vfirst = 1;
 
 	return 0;
 }
 
 
-int GpLcdSurfaceGet(GPDRAWSURFACE * ptgpds, int idx)
+int GpLcdSurfaceGet(GPDRAWSURFACE * ptgpds)
 {
 	ptgpds->bpp = cur_bpp;
 	ptgpds->buf_w = LCD_WIDTH;
 	ptgpds->buf_h = LCD_HEIGHT;
 	ptgpds->ox = 0;
 	ptgpds->oy = 0;
-	ptgpds->ptbuffer = (unsigned char*)GpScreen[idx];
+	ptgpds->ptbuffer = (unsigned char*)GpScreen;
 	return 0;
 }
 
@@ -169,7 +162,7 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 
     switch(scale)
 	{
-		case 0:
+	case 0:
             vram += (LCD_HEIGHT - 1) * lcd_real_width;
             for (x=0; x<LCD_WIDTH; x++)
             {
@@ -185,8 +178,8 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                 }
             }
             break;
-    
-		case 1:
+
+	case 1:
             vram += (LCD_HEIGHT - 1) * 2 * lcd_real_width;
             for (x=0; x<LCD_WIDTH; x++)
             {
@@ -215,24 +208,18 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 }
 
 
-void GpSurfaceFlip(GPDRAWSURFACE * ptgpds, int vs)
+void GpSurfaceFlip(GPDRAWSURFACE* ptgpds)
 {
-    if (SDL_MUSTLOCK(screen))
-        if (SDL_LockSurface(screen) < 0)
-            return;
+	if (SDL_MUSTLOCK(screen))
+		if (SDL_LockSurface(screen) < 0)
+			return;
 
-    GP32toPC((unsigned short*)ptgpds->ptbuffer, ptgpds->bpp, screen);
+	GP32toPC((unsigned short*)ptgpds->ptbuffer, ptgpds->bpp, screen);
 
-    if (SDL_MUSTLOCK(screen))
-        SDL_UnlockSurface(screen);
+	if (SDL_MUSTLOCK(screen))
+		SDL_UnlockSurface(screen);
 
-        SDL_Flip(screen);
-
-//        if (vs==1)
-//        {
-//            int waitime = SDL_GetTicks();
-//            while ((SDL_GetTicks() - waitime)<8){};
-//        }    
+	SDL_Flip(screen);
 }
 
 

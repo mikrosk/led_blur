@@ -27,11 +27,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 int clockspeed = 66;
 
-unsigned char *framebuffer[2];
-GPDRAWSURFACE GP32Surface[2];
-
-int flip=0;
-int vsync=0;
+unsigned char *framebuffer;
+GPDRAWSURFACE GP32Surface;
 
 extern int quit;
 extern int partime;
@@ -42,9 +39,9 @@ extern int play_music;
 extern int fps_show;
 extern int double_buffer;
 
-static void ClearScreen(int page, int c)
+static void ClearScreen(int c)
 {
-	unsigned short *vram = (unsigned short*)framebuffer[page];
+	unsigned short *vram = (unsigned short*)framebuffer;
 	int i;
 
 	for (i=0; i<LCD_WIDTH*LCD_HEIGHT; i++)
@@ -54,13 +51,10 @@ static void ClearScreen(int page, int c)
 
 void InitGraphics(int depth)
 {
-	GpGraphicModeSet(depth, 0);
+	GpGraphicModeSet(depth);
 
-	GpLcdSurfaceGet(&GP32Surface[0], 0);
-	GpLcdSurfaceGet(&GP32Surface[1], 1);
-
-	framebuffer[0] = (unsigned char*)GP32Surface[0].ptbuffer;
-	framebuffer[1] = (unsigned char*)GP32Surface[1].ptbuffer;
+	GpLcdSurfaceGet(&GP32Surface);
+	framebuffer = (unsigned char*)GP32Surface.ptbuffer;
 }
 
 
@@ -77,14 +71,12 @@ static void Init()
 	SDL_WM_SetCaption ("Led Blur PC by Optimus/Mindlapse", 0);
 	SDL_ShowCursor(SDL_DISABLE);
 
-	ClearScreen(0, 0x80a0);
-	ClearScreen(1, 0x80a0);
+	ClearScreen(0x80a0);
 
 	InitFonts();
 	precalcs();
 
-	ClearScreen(0, 0);
-	ClearScreen(1, 0);
+	ClearScreen(0);
 
 	InitMusic();
 	partime = Ticks();
@@ -103,14 +95,12 @@ int main(int argc, char *argv[])
 	int i;
 	scale = 0;
 	fullscreen = 0;
-	vsync = 1;
 		
 	for(i=1; i<argc; i++) {
 		if(argv[i][0] == '-' && argv[i][2] == 0) {
 			switch(argv[i][1]) {
 			case 'f':
 				fullscreen = SDL_FULLSCREEN;
-				vsync = 0;
 				break;
 
 			case 's':
@@ -148,9 +138,8 @@ int main(int argc, char *argv[])
 	{
 		Run();
 		UpdateSong();
-		GpSurfaceFlip(&GP32Surface[flip], vsync);
+		GpSurfaceFlip(&GP32Surface);
 		UpdateSong();
-		flip=(flip+1)&1;
 	}
     SoundEnd();
     return 0;
