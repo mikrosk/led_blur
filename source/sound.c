@@ -32,6 +32,7 @@
 #define SAMPLE_RATE		24585
 
 int play_music = 1;
+extern int scale;
 
 static xmp_context c;
 
@@ -63,6 +64,9 @@ void SoundInit(void) {
 	desired.channels = 2;
 	desired.format = AudioFormatSigned16MSB;
 	desired.samples = 2048;	// 2048/24585 = 83ms
+
+	if (scale)
+		desired.samples *= 2;
 
 	if (!AtariSoundSetupInitXbios(&desired, &obtained)) {
 		exit(EXIT_FAILURE);
