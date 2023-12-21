@@ -4,17 +4,18 @@ Led Blur (Atari/Firebee port) - by MiKRO / Mystic Bytes
 
 Sometimes during Fall of 2020 I bumped into this demo on pouet. Seeing how easy
 it would be to port it over I did exactly that -- only to find out that there
-are some bugs related to big endianness of our CPU (all the other ports were done
-for little endian machines...). I gave it a few more days and gave up.
+are some bugs related to big endianness of our CPU (all the other ports were
+ done for little endian machines...). I gave it a few more days and gave up.
 
-Oddly enough, today I was browsing my folder dedicated to all sorts of unfinished
-things and found this one. Of course I fixed all bugs in like 20 minuts and demo
-was good to go. :)
+Oddly enough, today I was browsing my folder dedicated to all sorts of
+unfinished things and found this one. Of course I fixed all bugs in like 20
+minutes and demo was good to go. :)
 
-The demo uses a CPU-only mod player so that's not exactly helping performance-wise.
-On the other hand, this demo is fully system and GEM compliant: it runs in a
-window, too! (if you want to run it fullscreen under FreeMiNT, make sure that
-"SDL_VIDEODRIVER" environment variable is set to "xbios").
+The demo uses a CPU-only mod player so that's not exactly helping
+performance-wise. On the other hand, this demo is fully system and GEM
+compliant: it runs in a window, too! (if you want to run it fullscreen under
+FreeMiNT, make sure that "SDL_VIDEODRIVER" environment variable is set to
+"xbios").
 
 Use '-h' command line parameter for list of available options.
 
@@ -26,18 +27,21 @@ Miro Kropacek aka MiKRO / Mystic Bytes
 10.09.2023, Kosice / Slovakia
 http://mikro.atari.org
 
-Update 02.10.2023:
+Update 21.12.2023:
 ------------------
 
 After some feedback I have assembled a new version with following updates:
 
 - fixed sound on Milan / Hades (both MilanBlaster and GSXB are supported)
 - fixed SDL_VIDEODRIVER=xbios on CTPCI, Milan and TT+NOVA graphics card
+  (unfortunately on Milan it seems to require some special XBIOS driver or 
+  upgrade; maybe someone with S3 card can let me know how it works there)
 - fixed Falcon RGB monitor output
 - fixed SuperVidel monitor output
 - optimised the RGB565 draw loop
 - optimised audio sample buffer (rendering isn't affected by playback anymore)
 - disabled FPS display and added '-p' parameter to bring it back
+- added '-d' to see the effect of double buffering (xbios only)
 - added a version for graphics card with little endian pixel format
 - renamed the mod file to an 8+3 filename
 
@@ -45,10 +49,6 @@ Please note that the audio driver is custom, i.e. SDL_AUDIODRIVER has no
 effect. I tried it but it was like 10x slower, perhaps some internal resampling
 was taking place (even if it shouldn't have). I have reported it to Patrice
 Mandin.
-
-Most of the fixes were SDL-related so make sure you use my SDL branch for your
-SDL projects: https://github.com/mikrosk/SDL-1.2. However there are still some
-SDL bugs left, e.g. SDL_VIDEODRIVER=xbios with NOVA doesn't work at all.
 
 When looking for system-friendly audio XBIOS handling, take a look here:
 https://github.com/mikrosk/atari_sound_setup. Hopefully one day it will find
