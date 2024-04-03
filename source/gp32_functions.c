@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 /* UNIX port by John Tsiombikas <nuclear@siggraph.org> */
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -183,7 +184,7 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
             vram += (LCD_HEIGHT - 1) * 2 * lcd_real_width;
             for (x=0; x<LCD_WIDTH; x++)
             {
-                unsigned long *y_vram = (unsigned long*)vram;
+                uint32_t *y_vram = (uint32_t*)vram;
                 vram += 2;
                 for (y=LCD_HEIGHT - 1; y>=0; y--)
                 {
@@ -192,7 +193,7 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
 #else
                     c = *gp32vram++;
 #endif
-                    unsigned long c32 = (c<<16) | c;
+                    uint32_t c32 = (c<<16) | c;
 
                     *y_vram = c32;
                     *(y_vram + lcd_real_width/2) = c32;
