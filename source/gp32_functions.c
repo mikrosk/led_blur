@@ -161,6 +161,11 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
     const size_t lcd_real_width = screen->pitch / screen->format->BytesPerPixel;
     unsigned short *gp32vram = (unsigned short*)gp32v16;
 
+    const int native565 =
+    	(screen->format->Rmask == 0xF800)
+    	&& (screen->format->Gmask == 0x07E0)
+    	&& (screen->format->Bmask == 0x001F);
+
     switch(scale)
 	{
 	case 0:
@@ -170,11 +175,7 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                 unsigned short *y_vram = vram++;
                 for (y=LCD_HEIGHT - 1; y>=0; y--)
                 {
-#ifdef BYTE_SWAP
-                    *y_vram = __builtin_bswap16(*gp32vram++);
-#else
-                    *y_vram = *gp32vram++;
-#endif
+                    *y_vram = native565 ? *gp32vram++ : __builtin_bswap16(*gp32vram++);
                     y_vram-=lcd_real_width;
                 }
             }
@@ -188,11 +189,7 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
                 vram += 2;
                 for (y=LCD_HEIGHT - 1; y>=0; y--)
                 {
-#ifdef BYTE_SWAP
-                    c = __builtin_bswap16(*gp32vram++);
-#else
-                    c = *gp32vram++;
-#endif
+                    c = native565 ? *gp32vram++ : __builtin_bswap16(*gp32vram++);
                     uint32_t c32 = (c<<16) | c;
 
                     *y_vram = c32;

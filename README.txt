@@ -14,8 +14,8 @@ minutes and demo was good to go. :)
 The demo uses a CPU-only mod player so that's not exactly helping
 performance-wise. On the other hand, this demo is fully system and GEM
 compliant: it runs in a window, too! (if you want to run it fullscreen under
-FreeMiNT, make sure that "SDL_VIDEODRIVER" environment variable is set to
-"xbios").
+FreeMiNT, make sure that "SDL_VIDEODRIVER" environment variable is not set to
+"gem").
 
 Use '-h' command line parameter for list of available options.
 
@@ -66,6 +66,14 @@ byte swapping: https://github.com/mikrosk/build-scripts/blob/master/libxmp-lite.
 
 lb_be.tos: Atari version, standard (big endian) pixel format support.
 lb_le.tos: Atari version, NOVA/ET4000 (little endian) pixel format support.
+lb_fb.tos: FireBee version.
+
+Update XX.XX.2024:
+------------------
+
+- one version for little and big endian pixel format
+
+lb.tos: Atari (68020+FPU) version.
 lb_fb.tos: FireBee version.
 
 ------------------------------------------------
