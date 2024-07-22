@@ -115,7 +115,8 @@ int GpGraphicModeSet(int gd_bpp)
 	screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, gd_bpp, SDL_HWSURFACE | fullscreen | double_buffer);
 	if ( screen == NULL ) {
 		fprintf(stderr, "Unable to set video mode: %s\n", SDL_GetError());
-		return(1);
+		SDL_Quit();
+		exit(1);
 	}
 	atexit(SDL_Quit);
 

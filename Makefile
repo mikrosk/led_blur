@@ -21,7 +21,7 @@ LDFLAGS	:= -s -m68020-60
 #LDFLAGS	:= -s -mcpu=5475
 LDLIBS	:= $(SDL_LIBS) -lxmp-lite -lm
 
-$(TARGET): $(obj) ../atari_sound_setup.git/atari_sound_setup.h
+$(TARGET): $(obj)
 	$(CC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
 	${TOOL_PREFIX}-flags -S $@
 

@@ -24,9 +24,7 @@
 
 #include <mint/falcon.h>
 #include <mint/osbind.h>
-
-// see https://github.com/mikrosk/atari_sound_setup
-#include "../../atari_sound_setup.git/atari_sound_setup.h"
+#include <usound.h>	// see https://github.com/mikrosk/usound
 
 #define MOD_FILENAME	"retroatt.mod"
 #define SAMPLE_RATE		24585
