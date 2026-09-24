@@ -38,7 +38,8 @@ static char* pPhysical;
 static char* pLogical;
 static char* pBuffer;
 
-static AudioSpec obtained;
+static USoundSpec obtained;
+static USoundContext usoundContext;
 
 static void loadBuffer(char* pBuffer) {
 	xmp_play_buffer(c, pBuffer, obtained.size, 0);
@@ -57,28 +58,28 @@ void SoundInit(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	AudioSpec desired;
+	USoundSpec desired;
 	desired.frequency = SAMPLE_RATE;
 	desired.channels = 2;
-	desired.format = AudioFormatSigned16MSB;
+	desired.format = USoundFormatSigned16MSB;
 	desired.samples = 2048;	// 2048/24585 = 83ms
 
 	if (scale)
 		desired.samples *= 2;
 
-	if (!AtariSoundSetupInitXbios(&desired, &obtained)) {
+	if (!USoundInitXbios(&desired, &obtained, &usoundContext)) {
 		exit(EXIT_FAILURE);
 	}
 
 	int format = 0;
-	if (obtained.format == AudioFormatSigned8
-		|| obtained.format == AudioFormatUnsigned8) {
+	if (obtained.format == USoundFormatSigned8
+		|| obtained.format == USoundFormatUnsigned8) {
 		format |= XMP_FORMAT_8BIT;
 	}
 
-	if (obtained.format == AudioFormatUnsigned8
-		|| obtained.format == AudioFormatUnsigned16LSB
-		|| obtained.format == AudioFormatUnsigned16MSB) {
+	if (obtained.format == USoundFormatUnsigned8
+		|| obtained.format == USoundFormatUnsigned16LSB
+		|| obtained.format == USoundFormatUnsigned16MSB) {
 		format |= XMP_FORMAT_UNSIGNED;
 	}
 
@@ -86,8 +87,8 @@ void SoundInit(void) {
 		format |= XMP_FORMAT_MONO;
 	}
 
-	if (obtained.format == AudioFormatSigned16LSB
-		|| obtained.format == AudioFormatUnsigned16LSB) {
+	if (obtained.format == USoundFormatSigned16LSB
+		|| obtained.format == USoundFormatUnsigned16LSB) {
 		format |= XMP_FORMAT_BYTESWAP;
 	}
 
@@ -149,7 +150,7 @@ void SoundEnd(void) {
 	xmp_end_player(c);
 	xmp_release_module(c);
 
-	AtariSoundSetupDeinitXbios();
+	USoundDeinitXbios(&usoundContext);
 
 	Mfree(pBuffer);
 	pBuffer = NULL;
