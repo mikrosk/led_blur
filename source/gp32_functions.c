@@ -162,9 +162,10 @@ void GP32toPC(unsigned short *gp32v16, int bpp, SDL_Surface *screen)
     const size_t lcd_real_width = screen->pitch / screen->format->BytesPerPixel;
     unsigned short *gp32vram = (unsigned short*)gp32v16;
 
+    /* Green is not checked: some drivers (e.g. NVDI on Falcon) report
+       bit 5 as overlay, giving Gmask 0x07C0 for a 565 layout */
     const int native565 =
     	(screen->format->Rmask == 0xF800)
-    	&& (screen->format->Gmask == 0x07E0)
     	&& (screen->format->Bmask == 0x001F);
 
     switch(scale)
