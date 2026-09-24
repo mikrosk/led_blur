@@ -74,6 +74,7 @@ Update XX.XX.2024:
 - one version for little and big endian pixel format
 - demo can be exited when running in fullscreen GEM
 - fixed a crash if SDL couldn't be initialised
+- fixed 16bpp rendering in GEM on SuperVidel
 
 lb.tos: Atari (68020+FPU) version.
 lb_fb.tos: FireBee version.
