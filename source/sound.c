@@ -17,14 +17,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 /* UNIX port by John Tsiombikas <nuclear@siggraph.org> */
-#include <stdio.h>
 #include <stdlib.h>
 
 #include <libxmp-lite/xmp.h>
-
-#include <mint/falcon.h>
-#include <mint/osbind.h>
-#include <usound.h>	// see https://github.com/mikrosk/usound
+#include <SDL.h>
 
 #define MOD_FILENAME	"retroatt.mod"
 #define SAMPLE_RATE		24585
@@ -34,15 +30,8 @@ extern int scale;
 
 static xmp_context c;
 
-static char* pPhysical;
-static char* pLogical;
-static char* pBuffer;
-
-static USoundSpec obtained;
-static USoundContext usoundContext;
-
-static void loadBuffer(char* pBuffer) {
-	xmp_play_buffer(c, pBuffer, obtained.size, 0);
+static void callback(void *userdata, Uint8 *stream, int len) {
+	xmp_play_buffer(c, stream, len, 0);
 }
 
 void SoundInit(void) {
@@ -58,28 +47,30 @@ void SoundInit(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	USoundSpec desired;
-	desired.frequency = SAMPLE_RATE;
+	SDL_AudioSpec desired = {0};
+	desired.freq = SAMPLE_RATE;
+	desired.format = AUDIO_S16MSB;
 	desired.channels = 2;
-	desired.format = USoundFormatSigned16MSB;
 	desired.samples = 2048;	// 2048/24585 = 83ms
+	desired.callback = callback;
 
 	if (scale)
 		desired.samples *= 2;
 
-	if (!USoundInitXbios(&desired, &obtained, &usoundContext)) {
+	SDL_AudioSpec obtained;
+	if (SDL_OpenAudio(&desired, &obtained) < 0) {
 		exit(EXIT_FAILURE);
 	}
 
 	int format = 0;
-	if (obtained.format == USoundFormatSigned8
-		|| obtained.format == USoundFormatUnsigned8) {
+	if (obtained.format == AUDIO_S8
+		|| obtained.format == AUDIO_U8) {
 		format |= XMP_FORMAT_8BIT;
 	}
 
-	if (obtained.format == USoundFormatUnsigned8
-		|| obtained.format == USoundFormatUnsigned16LSB
-		|| obtained.format == USoundFormatUnsigned16MSB) {
+	if (obtained.format == AUDIO_U8
+		|| obtained.format == AUDIO_U16LSB
+		|| obtained.format == AUDIO_U16MSB) {
 		format |= XMP_FORMAT_UNSIGNED;
 	}
 
@@ -87,71 +78,28 @@ void SoundInit(void) {
 		format |= XMP_FORMAT_MONO;
 	}
 
-	if (obtained.format == USoundFormatSigned16LSB
-		|| obtained.format == USoundFormatUnsigned16LSB) {
+	if (obtained.format == AUDIO_S16LSB
+		|| obtained.format == AUDIO_U16LSB) {
 		format |= XMP_FORMAT_BYTESWAP;
 	}
 
-	xmp_start_player(c, obtained.frequency, format);
-
-	pBuffer = (char*)Mxalloc(2 * obtained.size, MX_STRAM);
-	if (pBuffer == NULL) {
-		exit(EXIT_FAILURE);
-	}
-	pPhysical = pBuffer;
-	pLogical = pBuffer + obtained.size;
-
-	loadBuffer(pPhysical);
-
-	Setbuffer(SR_PLAY, pBuffer, pBuffer + 2*obtained.size);
+	xmp_start_player(c, obtained.freq, format);
 }
 
 void PlaySong(void) {
 	if (!play_music)
 		return;
 
-	Buffoper (SB_PLA_ENA | SB_PLA_RPT);
-}
-
-void UpdateSong(void) {
-	if (!play_music)
-		return;
-
-	static int loadSampleFlag;
-
-	SndBufPtr sPtr;
-	if (Buffptr(&sPtr) != 0) {
-		exit(EXIT_FAILURE);
-	}
-
-	if (loadSampleFlag == 0) {
-		// we play from pPhysical (1st buffer)
-		if (sPtr.play < pLogical)
-		{
-			loadBuffer(pLogical);
-			loadSampleFlag = !loadSampleFlag;
-		}
-	} else {
-		// we play from pLogical (2nd buffer)
-		if (sPtr.play >= pLogical) {
-			loadBuffer(pPhysical);
-			loadSampleFlag = !loadSampleFlag;
-		}
-	}
+	SDL_PauseAudio(0);
 }
 
 void SoundEnd(void) {
 	if (!play_music)
 		return;
 
-	Buffoper(0x00);
+	SDL_CloseAudio();
 
 	xmp_stop_module(c);
 	xmp_end_player(c);
 	xmp_release_module(c);
-
-	USoundDeinitXbios(&usoundContext);
-
-	Mfree(pBuffer);
-	pBuffer = NULL;
 }

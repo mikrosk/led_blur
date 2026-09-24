@@ -57,10 +57,6 @@ The best results you get on a computer which is able to provide 16-bit (RGB565)
 pixel format; it will run on Falcon VGA's 640x480@8-bit or TT's 320x480@8-bit
 for example but the performance will be just terrible (realtime dithering...).
 
-When looking for system-friendly audio XBIOS handling, take a look here:
-https://github.com/mikrosk/usound. Hopefully one day it will find its way into
-SDL.
-
 The demo uses a modified version of libxmp-lite, patched with support for
 byte swapping: https://github.com/mikrosk/build-scripts/blob/master/libxmp-lite.patch.
 
@@ -75,6 +71,7 @@ Update XX.XX.2024:
 - demo can be exited when running in fullscreen GEM
 - fixed a crash if SDL couldn't be initialised
 - fixed 16bpp rendering in GEM on SuperVidel
+- switched fully to SDL audio
 
 lb.tos: Atari (68020+FPU) version.
 lb_fb.tos: FireBee version.

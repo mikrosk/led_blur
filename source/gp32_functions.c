@@ -109,7 +109,7 @@ int GpKeyGet()
 
 int GpGraphicModeSet(int gd_bpp)
 {
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
 	free(GpScreen);
 
 	screen = SDL_SetVideoMode(LCD_WIDTH << scale, LCD_HEIGHT << scale, gd_bpp, SDL_HWSURFACE | fullscreen | double_buffer);

@@ -137,9 +137,7 @@ int main(int argc, char *argv[])
 	while (!quit)
 	{
 		Run();
-		UpdateSong();
 		GpSurfaceFlip(&GP32Surface);
-		UpdateSong();
 	}
     SoundEnd();
     return 0;
